@@ -1,0 +1,775 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"wa",
+				"waveformData"
+			],
+			[
+				"prese",
+				"presenceFilter"
+			],
+			[
+				"brillia",
+				"brillianceFilter"
+			],
+			[
+				"biqu",
+				"biquadFilterNode"
+			],
+			[
+				"audio",
+				"audioCtx"
+			],
+			[
+				"analy",
+				"analyserNode"
+			],
+			[
+				"expand",
+				"expandedSetting"
+			],
+			[
+				"to",
+				"toggleAdvancedSettings"
+			],
+			[
+				"visuali",
+				"visualizationSettings"
+			],
+			[
+				"option",
+				"option"
+			],
+			[
+				"visu",
+				"visualizationSettings"
+			],
+			[
+				"ad",
+				"advancedOptions"
+			],
+			[
+				"expan",
+				"expandButton"
+			],
+			[
+				"getE",
+				"getElementsByTagName"
+			],
+			[
+				"get",
+				"getElementsByClassName"
+			],
+			[
+				"play",
+				"playbackRate"
+			],
+			[
+				"vis",
+				"visualizationSettings"
+			],
+			[
+				"backg",
+				"background-color"
+			],
+			[
+				"track",
+				"trackListHeight"
+			],
+			[
+				"trackList",
+				"trackListVisible"
+			],
+			[
+				"Volu",
+				"volumeControl"
+			],
+			[
+				"current",
+				"currentTrack"
+			],
+			[
+				"volume",
+				"volumeSlider"
+			],
+			[
+				"control",
+				"controlsHidden"
+			],
+			[
+				"bg",
+				"playBGAudio"
+			],
+			[
+				"game",
+				"GAME_STATE"
+			],
+			[
+				"gameS",
+				"gameState"
+			],
+			[
+				"round",
+				"roundScore"
+			],
+			[
+				"CirCLE",
+				"CIRCLE_STATE"
+			],
+			[
+				"EXPL",
+				"EXPLODING"
+			],
+			[
+				"MAX",
+				"MAX_LIFETIME"
+			],
+			[
+				"IMP",
+				"IMPLODING"
+			],
+			[
+				"CIRCL",
+				"CIRCLE_STATE"
+			],
+			[
+				"circl",
+				"CIRCLE"
+			],
+			[
+				"EXPLO",
+				"EXPLOSION_SPEED"
+			],
+			[
+				"CIRCLE",
+				"CIRCLE_STATE"
+			],
+			[
+				"Game",
+				"GAME_STATE"
+			],
+			[
+				"CIR",
+				"CIRCLE_STATE"
+			],
+			[
+				"num",
+				"numCircles"
+			],
+			[
+				"draw",
+				"drawPauseScreen"
+			],
+			[
+				"circlehit",
+				"circleHitTopBottom"
+			],
+			[
+				"x",
+				"xSpeed"
+			],
+			[
+				"MA",
+				"MAX_SPEED"
+			],
+			[
+				"Sta",
+				"START_RADIUS"
+			],
+			[
+				"curren",
+				"currentTool"
+			],
+			[
+				"fill",
+				"fillStyle"
+			],
+			[
+				"top",
+				"topCanvas"
+			],
+			[
+				"currne",
+				"currentTool"
+			],
+			[
+				"on",
+				"onchange"
+			],
+			[
+				"clear",
+				"clearButton"
+			],
+			[
+				"stroke",
+				"strokeStyle"
+			],
+			[
+				"doMous",
+				"doMousemove"
+			],
+			[
+				"rootAddress",
+				"rootAddress"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "visualizer.html",
+			"settings":
+			{
+				"buffer_size": 7497,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/audiomanager.js",
+			"settings":
+			{
+				"buffer_size": 6646,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/uimanager.js",
+			"settings":
+			{
+				"buffer_size": 11032,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/utilities.js",
+			"settings":
+			{
+				"buffer_size": 2736,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/workspace.js",
+			"settings":
+			{
+				"buffer_size": 2,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/visualizermanager.js",
+			"settings":
+			{
+				"buffer_size": 5774,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "css/generated.css",
+			"settings":
+			{
+				"buffer_size": 2229,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "\n/* UI specific, handwritten CSS */\n\n/* Possibly a placeholder? Raleway is okay and all, but.. meh. */\n@import url(https://fonts.googleapis.com/css?family=Raleway);\n@import url(https://fonts.googleapis.com/css?family=Dosis);\n\n* {\n  /* consistent transitions for now */\n  -webkit-transition: all .2s;\n  -moz-transition: all .2s;\n  -ms-transition: all .2s;\n  -o-transition: all .2s;\n  transition: all .2s;\n}\n\nbody { \n  font-family: 'Dosis', sans-serif; \n  font-size: 20px; \n}\n\n/* For slide left, slide right transitions */\n.slidehorizontal{\n  max-width: 0;\n  opacity: 0;\n  overflow: hidden;\n  transition: max-width 0.4s ease 0s;\n}\n\n/* For slide up, slide down transitions */\n.slide{\n  max-height: 0;\n  opacity: 0;\n  overflow: hidden;\n  transition: max-height 0.4s ease 0s;\n}\n\n/* MAIN CONTROLS CSS */\n\n/* track control styling */\n\n#playbackControls{\n  position:absolute;\n  right: 550px;\n  padding:0;\n  margin:0;\n}\n\n#trackControl{\n  margin: 20px 10px;\n  position:absolute;\n  left: 35px;\n  overflow:visible;\n}\n\n#trackSelect {\n  font-family: 'Raleway', sans-serif;\n  color: black;\n  width: 300px;\n  height: 35px;\n  max-height: 35px;\n  line-height: 35px;\n  opacity: .7;\n  cursor: pointer;\n  background-color: #f2e8e8;\n  text-align:left;\n  text-indent: 2px;\n  border-radius: 3px;\n}\n\n#trackSelect:hover {\n  background-color: transparent;\n  color: white;\n}\n\n#trackList{\n  position:absolute;\n  bottom: 40px;\n  margin:0;\n  left:0px;\n  width:300px;\n  padding:0;\n  text-align:left;\n  font-size: .7em;\n  background-color:#333333;\n  border-radius: 5px 5px 0px 0px;\n}\n\n#trackList li {\n  list-style-type: none;\n  background-color: transparent;\n  color: white;\n  cursor: pointer;\n  margin:0;\n  padding:10px;\n  text-indent:2px;\n}\n\n#trackList li:hover {\n  text-indent:10px;\n}\n\n/* General controls styling */\n\n#controls{\n  position: fixed;\n  height: 60px;\n  width: 100%;\n  bottom: 0;\n  text-align: center;\n}\n\n#controlsBG{\n  position:absolute;\n  height: 45px;\n  width:100%;\n  top:15px;\n  background-color:#333333;\n  z-index: -2;\n}\n\n#bottomsensor{\n  width: 100%;\n  height: 60px;\n  position: fixed;\n  bottom: 0;\n  z-index: 999;\n}\n\n\n/* Controls buttons */\n#playButton, #hideButton, #showOptionsButton{\n  border-radius: 50%;\n  height:40px;\n  width:40px;\n  text-align:center;\n  padding:0;\n  /*margin:5px auto;*/\n  margin-top:15px;\n  background:transparent;\n  box-shadow:none;\n  outline: none;\n  border:none;\n}\n\n#playButton img, #hideButton img, #showOptionsButton img{\n  margin:0;\n  padding:0;\n  margin:auto;\n}\n\n#playButton{\n  position:absolute;\n  margin-top:17px;\n  left: 0;\n}\n\n#hideButton{\n    position:absolute;\n    margin-top:17px;\n    right: 5px;\n}\n\n#showOptionsButton{\n  position:absolute;\n  left: 2%;\n}\n\n\n/* Slider CSS (see generated.css for the rest of the styles on sliders) */\n.slider {\n  width:80%;\n  background-color: transparent;\n  height:100%;\n}\n\n/* volume controls */\n#volumeControl{\n  margin: 10px;\n  margin-top:25px;\n  height: 20px;\n  position:absolute;\n  left:350px;\n  width: 125px;\n\n}\n\n#volumeControl label{\n  width:20px;\n  height:20px;\n  text-align:center;\n  margin:0;\n  padding:0;\n  float:left;\n}\n\n#volumeControl label img{\nmargin:0;\npadding:0;\n}\n\n#volumeSlider{\n  margin:0;\n  margin-left:3px;\n  width:75%;\n/*  opacity:0;*/\n}\n\n/* OPTIONS MENU CSS */\n\n\n#options{\n  background-color: #333333;\n  position: absolute;\n  left:0;\n  bottom:0;\n  height: 100%;\n  border-radius: 0px 5px 0px 0px;\n}\n\n#equalizerSettings{\n  color:white;\n  height:30%;\n  padding:20px;\n}\n\n.eqControl{\n  margin-top: 10px;\n  margin-bottom: 10px;\n  height:15px;\n  font-size:.8em;\n  text-indent:.5em;\n}\n\n.eqControl .slider{\n  width:70%;\n float:right;\n}\n#pbrSlider{\n  width: 50%;\n}\n\n#visualizationSettings{\n  color:white;\n  height:50%;\n  padding:0px;\n}\n\n\n#visualizationSettings header{\n  margin-bottom: 15px;\n  padding-left: 20px;\n}\n\n#resetButton{\n  border-width: 0;\n  border-radius: 3px;\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  border-style:none;\n  background-color:#222222;\n  color:white;\n  font-size:.5em;\n  font-family: \"Raleway\", sans-serif;\n}\n\n.visOption{\n  position:relative;\n  padding-left:25px;\n}\n\n.visOption .optLabel{\n  font-size:.6em;\n  position: relative;\n  top: -10px;\n}\n\n.advancedOptions{\n  background-color:#555555;\n  width:300px;\n  height:200px;\n  position:absolute;\n  left: 100%;\n  margin:0;\n  top:0px;\n  border-radius:0px 5px 5px 0px;\n}\n\n.expandButton{\n  position:absolute;\n  right: 5px;\n  top: 7px;\n}\n\n/* ON/OFF CHECKBOXES (they are so super cool) inspired by brad bodine\n    https://codepen.io/bbodine1/ */\n\n.checkSwitch {\n  width: 40px;\n  height: 13px;\n  background: #333;\n  position: relative;\n  border-radius: 50px;\n  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);\n  background-color:grey;\n  display:inline-block;\n  margin:5px;\n}\n.checkSwitch:after {\n  content: 'OFF';\n  color: #000;\n  position: absolute;\n  top:3px;\n  right: 3px;\n  z-index: 0;\n  font: 7px Arial, sans-serif;\n  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);\n}\n.checkSwitch:before {\n  content: 'ON';\n  position: absolute;\n  top:3px;\n  left: 5px;\n  z-index: 0;\n  font: 7px Arial, sans-serif;\n  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);\n}\n.checkSwitch label {\n  display: block;\n  width: 17px;\n  height: 10px;\n  cursor: pointer;\n  position: absolute;\n  top: 3px;\n  left: 3px;\n  z-index: 1;\n  background: #fcfff4;\n  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);\n  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);\n  border-radius: 50px;\n  -webkit-transition: all 0.4s ease;\n  transition: all 0.4s ease;\n  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);\n}\n.checkSwitch input[type=checkbox] {\n  visibility: hidden;\n}\n.checkSwitch input[type=checkbox]:checked + label {\n  left: 22px;\n}",
+			"file": "css/ui.css",
+			"file_size": 6105,
+			"file_write_time": 131519120497352862,
+			"settings":
+			{
+				"buffer_size": 5753,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/app/display.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/app/audio.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/server_modules/log.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/server.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/views/index.html",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/app/client.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/app/gameManager.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/app/network.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/app/input.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/visualizer.html",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/css/ui.css",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/uimanager.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/audiomanager.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/visualizermanager.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/css/generated.css",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/workspace.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/utilities.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/Boomshine-ICE-start/Boomshine-ICE-start/js/emitter.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/ui.css",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/CSCI262/nfaToDfa.py",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/CSCI262/testnfa",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/CSCI262/dfa.1.42",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/Boomshine-ICE-start/Boomshine-ICE-start/js/sound.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/Boomshine-ICE-start/Boomshine-ICE-start/js/keys.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/Boomshine-ICE-start/Boomshine-ICE-start/js/utilities.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/Boomshine-ICE-start/Boomshine-ICE-start/boomshine.html",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/Boomshine-ICE-start/Boomshine-ICE-start/js/main.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/Boomshine-ICE-start/Boomshine-ICE-start/js/loader.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/Boomshine-ICE-start/Boomshine-B/js/loader.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/web audio-1 start/web audio-1 start/web-audio-visualizer.html",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/Car demo done/Car demo done/Module Pattern/Car.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/uimanager.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/audiomanager.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/simple-filter-demo/simple-filter-demo/js/utilities.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/globalCompositeOperationDemo/globalCompositeOperationDemo/example.html",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/globalCompositeOperationDemo/globalCompositeOperationDemo/example.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Drawing App Start/Drawing App Start/canvas-paint.html",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/speed-circles-start-files (Extra Credit)/speed-circles-start-files/speed_circles_2.html",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/speed-circles-start-files (Extra Credit)/speed-circles-start-files/speed_circles_1.html",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/speed-circles-start-files (Extra Credit)/speed-circles-start-files/speed_circles.html",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/shape-viewer-app-start/shape-viewer-app-start.html",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/try-it-1-start/try-it-1-start/try-it-1.html",
+		"/D/Wyvern/codingstandard.txt",
+		"/D/Wyvern/Engine/debug/console.h",
+		"/D/Wyvern/Engine/memory/memoryallocator.h",
+		"/D/Wyvern/Engine/memory/linearmemoryallocator.cpp",
+		"/D/Wyvern/Engine/memory/stackmemoryallocator.h",
+		"/D/Wyvern/Engine/memory/stackmemoryallocator.cpp",
+		"/D/Wyvern/Engine/memory/listmemoryallocator.h",
+		"/D/Wyvern/Engine/memory/listmemoryallocator.cpp",
+		"/D/Wyvern/Engine/memory/poolmemoryallocator.cpp",
+		"/D/Wyvern/Engine/memory/proxymemoryallocator.cpp",
+		"/D/Wyvern/Engine/memory/proxymemoryallocator.h",
+		"/D/Wyvern/Engine/memory/poolmemoryallocator.h",
+		"/D/Wyvern/Engine/memory/linearmemoryallocator.h",
+		"/D/Wyvern/Engine/utility/file.cpp",
+		"/D/Wyvern/Engine/testing/testing.h",
+		"/D/Wyvern/Engine/testing/testing.cpp",
+		"/D/Wyvern/Engine/testing.h",
+		"/D/Wyvern/Engine/Debug_Output/engine.ilk",
+		"/D/Wyvern/Engine/Debug_Intermediate/engine.tlog/link.write.1.tlog",
+		"/D/Wyvern/Engine/Debug_Intermediate/engine.tlog/link.read.1.tlog",
+		"/D/Wyvern/Engine/Debug_Intermediate/engine.tlog/link.command.1.tlog",
+		"/D/Wyvern/Engine/Debug_Intermediate/engine.tlog/CL.write.1.tlog",
+		"/D/Wyvern/Engine/Debug_Intermediate/engine.tlog/CL.read.1.tlog",
+		"/D/Wyvern/Engine/Debug_Intermediate/engine.tlog/CL.command.1.tlog",
+		"/D/Wyvern/Engine/Debug_Intermediate/Engine.log",
+		"/D/Wyvern/Engine/Engine.vcxproj.filters",
+		"/D/Wyvern/Engine/Engine.vcxproj",
+		"/D/Wyvern/Engine/memory/allocator.cpp"
+	],
+	"find":
+	{
+		"height": 30.0
+	},
+	"find_in_files":
+	{
+		"height": 117.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"visualization",
+			"consol",
+			"Emitter",
+			"d_",
+			"playBG",
+			"this.stopBG",
+			"this.bgAud",
+			"playEffec",
+			"playEff",
+			"debugger",
+			"clear",
+			"ProxyAllocator",
+			"P",
+			"ProxyAllocator",
+			"u8",
+			"PoolAllocator",
+			"FreeListAllocator",
+			"StackAllocator",
+			"Allocator"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"particlesystem",
+			"ProxyMemoryAllocator",
+			"uint",
+			"PoolMemoryAllocator",
+			"ListMemoryAllocator",
+			"StackMemoryAllocator",
+			"MemoryAllocator"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 5,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "visualizer.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7497,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 825.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/audiomanager.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6646,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/uimanager.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11032,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/utilities.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2736,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/workspace.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/visualizermanager.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5774,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2721,
+								2721
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1103.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "css/generated.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2229,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "css/ui.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5753,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								222,
+								222
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 30.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "audioviz.sublime-project",
+	"replace":
+	{
+		"height": 55.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 88.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

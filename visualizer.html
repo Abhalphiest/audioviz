@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Audio Visualizer</title>
+	<link rel = "stylesheet" type = "text/css" href = "css/generated.css" />
+	<link rel = "stylesheet" type = "text/css" href = "css/ui.css" />
+	<style>
+
+	html, body {
+  		width:  	100%;
+  		height: 	100%;
+  		margin: 	0px;
+  		overflow: 	hidden;
+	}
+    canvas {
+        background: #f2f2f2;
+        z-index: -999;
+        position: fixed;
+    }
+
+
+	</style>
+	<script type="text/javascript" src="src/audiomanager.js"></script>
+	<script type="text/javascript" src="src/uimanager.js"></script>
+	<script type="text/javascript" src="src/visualizermanager.js"></script>
+	<script type="text/javascript" src="src/workspace.js"></script>
+	<script>
+
+	var tracks = ["Berlin", "Radio Protector", "Seatbelt Hands", "We Can Make The World Stop", "Yuna's Ballad", "Fireflies and Empty Skies"];
+	(function(){
+		"use strict";
+
+		function init(){			
+			application.audio.initializeAudio();
+			application.audio.setStream("tracks/Berlin.mp3");
+			application.ui.initializeUI();
+			application.visualizer.initializeVisualizer();
+
+			// start animation loop
+			update();
+		}
+				
+		function update() { 
+			// animate at 60fps
+			requestAnimationFrame(update);
+
+			application.visualizer.update();
+			
+		} 
+		
+		 // FULL SCREEN MODE
+		function requestFullscreen(element) {
+			if (element.requestFullscreen) {
+			  element.requestFullscreen();
+			} else if (element.mozRequestFullscreen) {
+			  element.mozRequestFullscreen();
+			} else if (element.mozRequestFullScreen) { // camel-cased 'S' was changed to 's' in spec
+			  element.mozRequestFullScreen();
+			} else if (element.webkitRequestFullscreen) {
+			  element.webkitRequestFullscreen();
+			}
+			// .. and do nothing if the method is not supported
+		};
+		
+		
+		window.onload=init;
+	}());
+		
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<div id="bottomsensor">
+		<section id="controls" class = "slide" >
+			<div id="controlsBG"></div>
+			<!-- These are all positioned absolutely, so it doesn't matter what order they're in, but I put them from left to right to satisfy my own neurosis. -->
+			<button id = "showOptionsButton" title="Show/Hide Settings Menu"> <img src="media/hamburglarwhite.png" height=40 width=40 alt="Show Options"> </button>
+			<div id="playbackControls">
+				<button id="playButton" type="button"><img src="media/playcirclewhite.png" height=30 width=30 alt="Play"></button>
+				<div id="trackControl" >
+					<ul id="trackList" class="slide" > </ul>
+					<div id="trackSelect">
+						<span id="currentTrack">Select a Track</span>
+					</div>
+				</div>
+				<span id="volumeControl">
+					<label for="volumeSlider" id = "volumeIcon"><img src="media/volumeiconwhite.png" height=20 width=20 alt="Volume"/> </label>
+					<input id="volumeSlider" class="slider" type ="range" min ="0" max="1.0" step =".001" value =".2"/>
+				</span>
+			</div>
+			<button id="hideButton" title="Pin/Unpin the Control Panel" type="button"><img src="media/unpinwhite.png" height=30 width=30 alt="Unpin Controls"></button>
+		</section>
+	</div>
+	<section id="options" class="slide">
+		<section id="equalizerSettings">
+			<header> Equalizer Settings </header>
+			<div id="gainControl" class="eqControl">
+				<label for="gainSlider" id = "gainLabel">Gain</label>
+				<input id="gainSlider" class="slider" type ="range" min ="0" max="2.0" step =".01" value ="1"/>
+			</div>
+			<!-- pabst blue ribbon control -->
+			<!-- alternatively, physically based rendering control if you're a NERD -->
+			<!-- it's actually playback rate though -->
+			<div id="pbrControl" class="eqControl">
+				<label for="pbrSlider" id = "pbrLabel">Playback Rate</label>
+				<input id="pbrSlider" class="slider" type ="range" min ="-2" max="2" step =".01" value ="1"/>
+			</div>
+			<div id="bassControl" class="eqControl">
+				<label for="bassSlider" id = "bassLabel">Bass</label>
+				<input id="bassSlider" class="slider" type ="range" min ="0" max="5.0" step =".01" value ="1"/>
+			</div>
+			<div id="lowControl" class="eqControl">
+				<label for="lowSlider" id = "lowLabel">Low</label>
+				<input id="lowSlider" class="slider" type ="range" min ="0" max="5.0" step =".01" value ="1"/>
+			</div>
+			<div id="midControl" class="eqControl">
+				<label for="midSlider" id = "midLabel">Mid</label>
+				<input id="midSlider" class="slider" type ="range" min ="0" max="5.0" step =".01" value ="1"/>
+			</div>
+			<div id="highControl" class="eqControl">
+				<label for="highSlider" id = "highLabel">High</label>
+				<input id="highSlider" class="slider" type ="range" min ="0" max="5.0" step =".01" value ="1"/>
+			</div>
+			<div id="presenceControl" class="eqControl">
+				<label for="presenceSlider" id = "highLabel">Presence</label>
+				<input id="presenceSlider" class="slider" type ="range" min ="0" max="5.0" step =".01" value ="1"/>
+			</div>
+			<div id="brillianceControl" class="eqControl">
+				<label for="brillianceSlider" id = "brillianceLabel">Brilliance</label>
+				<input id="brillianceSlider" class="slider" type ="range" min ="0" max="5.0" step =".01" value ="1"/>
+			</div>
+			<div id="reverbControl" class="eqControl">
+				<label for="reverbSlider" id = "reverbLabel">Reverb</label>
+				<input id="reverbSlider" class="slider" type ="range" min ="0" max="5.0" step =".01" value ="1"/>
+			</div>
+		</section>
+		<section id="visualizationSettings">
+			<header> Visualization Settings </header>
+			<div id="quadCurveSettings" class="visOption">
+				<span class="checkSwitch">
+					<input type="checkbox" id="quadCurveCheckbox" /><label for="quadCurveCheckbox"></label>
+				</span>
+				<span id="quadCurveLabel" class="optLabel"> Bezier Curves</span>
+				<button type="button" class="expandButton"> </button>
+				<div id="quadCurveAdvanced" class="advancedOptions slidehorizontal" > </div>
+			</div>
+			<div id="particleSettings" class="visOption">
+				<span class="checkSwitch">
+					<input type="checkbox" id="particleCheckbox" /><label for="particleCheckbox"></label>
+				</span>
+				<span id="particleLabel" class="optLabel"> Particles</span>
+				<button type="button" class="expandButton"> </button>
+				<div id="particleAdvanced" class="advancedOptions slidehorizontal" > </div>
+			</div>
+			<div id="wlineSettings" class="visOption">
+				<span class="checkSwitch">
+					<input type="checkbox" id="wlineCheckbox" /><label for="wlineCheckbox"></label>
+				</span>
+				<span id="wlineLabel" class="optLabel"> Waveform Lines </span>
+				<button type="button" class="expandButton"> </button>
+				<div id="wlineAdvanced" class="advancedOptions slidehorizontal" > </div>
+			</div>
+			<div id="eqbarSettings" class="visOption">
+				<span class="checkSwitch">
+					<input type="checkbox" id="eqbarCheckbox" /><label for="eqbarCheckbox"></label>
+				</span>
+				<span id="eqbarLabel" class="optLabel"> EQ Bars </span>
+				<button type="button" class="expandButton"> </button>
+				<div id="eqbarAdvanced" class="advancedOptions slidehorizontal" > </div>
+			</div>
+			<div id="dynamicBgSettings" class="visOption">
+				<span class="checkSwitch">
+					<input type="checkbox" id="dynamicBgCheckbox" /><label for="dynamicBgCheckbox"></label>
+				</span>
+				<span id="dynamicBgLabel" class="optLabel"> Dynamic Background </span>
+				<button type="button" class="expandButton"> </button>
+				<div id="dynamicBgAdvanced" class="advancedOptions slidehorizontal" > </div>
+			</div>
+		</section>
+		<button id="resetButton" type="button">Reset to Defaults</button>
+	</section>
+</body>
+</html>
