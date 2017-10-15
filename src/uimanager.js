@@ -430,14 +430,17 @@ application.ui = function(){
 
 				// "this" is the input being changed
 				var parent = this.parentElement;
-				var preview = parent.parentElement.parentElement.querySelectorAll(".colorPreview")[0]
+				var colorPicker = parent.parentElement.parentElement;
+				var preview = colorPicker.parentElement.querySelector(".colorPreview");
 
+
+				// functions for parsing input values into colors
 				function makeRGBColor(r,g,b){
 					return "rgb(" + r +"," + g + "," + b + ")";
 				}
 
 				function makeHSLColor(h,s,l){
-					return "hsl(" + r +"," + g + "," + b + ")";
+					return "hsl(" + h +"," + s + "%," + l + "%)";
 				}
 				function validateHexColor(hex){
 					var valid = true;
@@ -477,22 +480,45 @@ application.ui = function(){
 					return {string:hex, valid: valid};
 				}
 
+				var result = "black"; // default to black if we have nonsense
 				switch(parent.classList[0]){
 					case "rgbSlider": 
-
+						var red = colorPicker.querySelector('input[name="red"]').value;
+						var green = colorPicker.querySelector('input[name="green"]').value;
+						var blue = colorPicker.querySelector('input[name="blue"]').value;
+						result = makeRGBColor(red,green,blue);
+						preview.style.backgroundColor = result;
 					break;
 
 					case "hslSlider":
-
+						var hue = colorPicker.querySelector('input[name="hue"]').value;
+						var saturation = colorPicker.querySelector('input[name="saturation"]').value;
+						var lightness = colorPicker.querySelector('input[name="lightness"]').value;
+						result = makeHSLColor(hue,saturation,lightness);
+						preview.style.backgroundColor = result;
 					break;
 
-					case "hexPicker":
-						var result = validateHexColor(this.value);
+					case "hexTextBox":
+						result = validateHexColor(this.value);
 						this.value = result.string;
 						if(result.valid){
-							console.dir(parent.parentElement);
 							preview.style.backgroundColor = result.string;
 						}
+					break;
+				}
+
+				// set the color property of the appropriate visualization
+				switch(colorPicker.id){
+					case "bezierColorPicker":
+						application.visualizer.visualization.bezierCurves.color = result;
+					break;
+
+					case "wlineColorPicker":
+						application.visualizer.visualization.waveformLines.color = result;
+					break;
+
+					case "eqbarColorPicker":
+						application.visualizer.visualization.eqBars.color = result;
 					break;
 				}
 
@@ -508,15 +534,15 @@ application.ui = function(){
 					// <span class="rgbPicker">\
   					// 		<div class="rgbSlider"> \
   					// 			<label for="RSlider">Red</label>\
-							// 	<input id="RSlider" class="slider" type ="range" min ="0" max="255" step ="1" value ="255"/>\
+							// 	<input id="RSlider" name="red" class="slider" type ="range" min ="0" max="255" step ="1" value ="255"/>\
   					// 		</div>\
   					// 		<div class="rgbSlider"> \
   					// 			<label for="GSlider">Green</label>\
-							// 	<input id="GSlider" class="slider" type ="range" min ="0" max="255" step ="1" value ="0"/>\
+							// 	<input id="GSlider" name="green" class="slider" type ="range" min ="0" max="255" step ="1" value ="0"/>\
   					// 		</div>\
   					// 		<div class="rgbSlider"> \
   					// 			<label for="BSlider">Blue</label>\
-							// 	<input id="BSlider" class="slider" type ="range" min ="0" max="255" step ="1" value ="0"/>\
+							// 	<input id="BSlider" name="blue" class="slider" type ="range" min ="0" max="255" step ="1" value ="0"/>\
   					// 		</div>\
   					// 		</span>
 			var rgbPicker = function(){
@@ -534,6 +560,7 @@ application.ui = function(){
 				rslider.max = "255";
 				rslider.step = "1";
 				rslider.value = "255";
+				rslider.name = "red";
 
 				var rlabel = document.createElement('label');
 				rlabel.for = "RSlider";
@@ -555,6 +582,7 @@ application.ui = function(){
 				gslider.max = "255";
 				gslider.step = "1";
 				gslider.value = "255";
+				gslider.name = "green";
 
 				var glabel = document.createElement('label');
 				glabel.for = "GSlider";
@@ -577,6 +605,7 @@ application.ui = function(){
 				bslider.max = "255";
 				bslider.step = "1";
 				bslider.value = "255";
+				bslider.name = "blue";
 
 				var blabel = document.createElement('label');
 				blabel.for = "BSlider";
@@ -596,15 +625,15 @@ application.ui = function(){
  						// 	'<span class="hslPicker">\
   						// 	<div class="hslSlider"> \
   						// 		<label for="HSlider">Hue</label>\
-								// <input id="HSlider" class="slider" type ="range" min ="0" max="255" step ="1" value ="255"/>\
+						// 		<input id="HSlider" name="hue" class="slider" type ="range" min ="0" max="360" step ="1" value ="255"/>\
   						// 	</div>\
   						// 	<div class="hslSlider"> \
   						// 		<label for="SSlider">Saturation</label>\
-								// <input id="SSlider" class="slider" type ="range" min ="0" max="255" step ="1" value ="0"/>\
+						// 		<input id="SSlider" name="saturation" class="slider" type ="range" min ="0" max="100" step ="1" value ="100"/>\
   						// 	</div>\
   						// 	<div class="hslSlider"> \
   						// 		<label for="LSlider">Lightness</label>\
-								// <input id="LSlider" class="slider" type ="range" min ="0" max="255" step ="1" value ="0"/>\
+						// 		<input id="LSlider" name="lightness" class="slider" type ="range" min ="0" max="100" step ="1" value ="50"/>\
   						// 	</div>\
   						// 	</span>';
 
@@ -620,9 +649,10 @@ application.ui = function(){
 				hslider.classList.add("slider");
 				hslider.type = "range";
 				hslider.min = "0";
-				hslider.max = "255";
+				hslider.max = "360";
 				hslider.step = "1";
 				hslider.value = "255";
+				hslider.name = "hue";
 
 				var hlabel = document.createElement('label');
 				hlabel.for = "HSlider";
@@ -641,9 +671,10 @@ application.ui = function(){
 				sslider.classList.add("slider");
 				sslider.type = "range";
 				sslider.min = "0";
-				sslider.max = "255";
+				sslider.max = "100";
 				sslider.step = "1";
-				sslider.value = "255";
+				sslider.value = "100";
+				sslider.name = "saturation"
 
 				var slabel = document.createElement('label');
 				slabel.for = "SSlider";
@@ -663,9 +694,10 @@ application.ui = function(){
 				lslider.classList.add("slider");
 				lslider.type = "range";
 				lslider.min = "0";
-				lslider.max = "255";
+				lslider.max = "100";
 				lslider.step = "1";
-				lslider.value = "255";
+				lslider.value = "50";
+				lslider.name = "lightness";
 
 				var llabel = document.createElement('label');
 				llabel.for = "LSlider";
@@ -683,12 +715,17 @@ application.ui = function(){
 
 			// This is the HTML that the following IIFE builds
   							// '<span class="hexPicker">\
-  							// 		<label for="HexInput">Value</label>\
-  							// 		<input id="HexInput" type="text">\
+  							// 		<div class="hexTextBox"
+  							// 			<label for="HexInput">Value</label>\
+  							// 			<input id="HexInput" type="text">\
+  							//		</div>
   							// </span>';
   			var hexPicker = function(){
   				var element = document.createElement("span");
   				element.classList.add("hexPicker");
+
+  				var div = document.createElement("div");
+  				div.classList.add("hexTextBox");
 
   				var textinput = document.createElement("input");
   				textinput.type = "text";
@@ -698,8 +735,9 @@ application.ui = function(){
   				label.for = "HexInput";
   				label.innerText = "Value";
 
-  				element.appendChild(label);
-  				element.appendChild(textinput);
+  				div.appendChild(label);
+  				div.appendChild(textinput);
+  				element.appendChild(div);
 
   				return element;
   			}();

@@ -13,7 +13,11 @@
   		margin: 	0px;
   		overflow: 	hidden;
 	}
-    canvas {
+
+	#foregroundCanvas, #midgroundCanvas, #backgroundCanvas{
+		display:none;
+	}
+    #mainCanvas {
         background: #f2f2f2;
         z-index: -999;
         position: fixed;
@@ -70,7 +74,10 @@
 	</script>
 </head>
 <body>
-	<canvas id="canvas"></canvas>
+	<canvas id="mainCanvas"></canvas>
+	<canvas id="foregroundCanvas"></canvas>
+	<canvas id="backgroundCanvas"></canvas>
+	<canvas id="midgroundCanvas"></canvas>
 	<div id="bottomsensor">
 		<section id="controls" class = "slide" >
 			<div id="controlsBG"></div>
@@ -154,7 +161,7 @@
   							<input id="bezierHexColor" class="colorRadio" type="radio" name="bezierColor">
   							<label for="bezierHexColor"><span><span></span></span>Hex</label>
   						</span>
-  						<div class="colorPicker">
+  						<div class="colorPicker" id="bezierColorPicker">
 
   						</div>
   						<span class="colorPreview"> Preview </span>
@@ -211,7 +218,7 @@
   							<input id="wlineHexColor" class="colorRadio" type="radio" name="wlineColor">
   							<label for="wlineHexColor"><span><span></span></span>Hex</label>
   						</span>
-  						<div class="colorPicker">
+  						<div class="colorPicker" id="wlineColorPicker">
 
   						</div>
   						<span class="colorPreview"> Preview </span>
@@ -248,7 +255,7 @@
   							<input id="eqbarHexColor" class="colorRadio" type="radio" name="eqbarColor">
   							<label for="eqbarHexColor"><span><span></span></span>Hex</label>
   						</span>
-  						<div class="colorPicker"></div>
+  						<div class="colorPicker" id="eqBarColorPicker"></div>
   						<span class="colorPreview"> Preview </span>
 					</div>
 					<div id="eqbarHeight"> 

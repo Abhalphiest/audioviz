@@ -4,34 +4,57 @@ var application = application || {};
 application.visualizer = function(){
 	var obj = {};
 	var initialized = false;
+	var canvas;
+	var ctx;
 	obj.initializeVisualizer = function(){
 
 		if(initialized)
 			return;
 
 		// set up canvas stuff
-		this.canvas = document.querySelector("canvas");
-		this.canvas.width = window.innerWidth;
-		this.canvas.height = window.innerHeight;
+		canvas = document.querySelector("#mainCanvas");
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		ctx = canvas.getContext("2d");
+
+		// topmost layer, for overlays
+		var foreground ={};
+		foreground.canvas = document.querySelector("#foregroundCanvas");
+		foreground.ctx = foreground.canvas.getContext('2d');
+
+		// bottom-most layer, for background effects
+		var background = {};
+		background.canvas = document.querySelector("#backgroundCanvas");
+		background.ctx = background.canvas.getContext('2d');
+
+		// between main canvas and background, for trail effect
+		var midground = {}
+		midground.canvas = document.querySelector("#midgroundCanvas");
+		midground.ctx = midground.canvas.getContext('2d');
+
 		this.resizeCanvas = function(width,height){
-			this.canvas.width = width;
-			this.canvas.height = height;
+			canvas.width = width;
+			canvas.height = height;
+			foreground.canvas.width = width;
+			foreground.canvas.height = height;
+			midground.canvas.width = width;
+			midground.canvas.height = height;
+			background.canvas.width = width;
+			background.canvas.height = height;
 		};
 
-		this.ctx = this.canvas.getContext("2d");
-
 		// visualization components
-		// TODO: need to figure out draw order!
 		this.visualization = {
 			bezierCurves:{
-				draw: function(frequencyData, ctx, canvas){
+				draw: function(frequencyData){
 					if(!this.enabled)
 						return;
 
 					ctx.save();
 					for(var i = 0; i < frequencyData.length; i++){
 					var scale = frequencyData[i]/255.0;
-					// draw quadrratic bezier curves
+
+					// draw quadratic bezier curves
 					// possible options - max curve height,control point offset (horizontal), visible, color
 					drawQuadCurve(ctx, -canvas.width/2, canvas.height/2, canvas.width/4+ this.controlPointOffset, 
 									canvas.height/2 + scale*this.maxCurveHeight, canvas.width/2, canvas.height/2, this.color, false);
@@ -66,7 +89,7 @@ application.visualizer = function(){
 				// TODO: figure out what to do here before continuing to code
 			},
 			waveformLines:{
-				draw: function(waveformData, ctx, canvas){
+				draw: function(waveformData){
 
 					if(!this.enabled)
 						return;
@@ -148,7 +171,7 @@ application.visualizer = function(){
 
 			},
 			dynamicBG:{
-				draw: function(frequencyData, ctx, canvas){
+				draw: function(frequencyData){
 					if(!this.enabled)
 						return;
 
@@ -206,32 +229,29 @@ application.visualizer = function(){
 		var waveformData = application.audio.getWaveformData();
 
 		// clear the screen for drawing
-		this.ctx.clearRect(0,0,canvas.width,canvas.width);  
+		ctx.clearRect(0,0,canvas.width,canvas.width);  
 		
-		this.visualization.bezierCurves.draw(frequencyData, this.ctx, this.canvas);
+		this.visualization.bezierCurves.draw(frequencyData);
 		for(var i = 0; i < frequencyData.length; i++){
 			var scale = frequencyData[i]/255.0;
 
 			//draw center circles
-			this.ctx.beginPath();
-			this.ctx.fillStyle = makeColor(0, 0, 0, .50 - scale/10.0);
-			this.ctx.arc(canvas.width/2, canvas.height/2, 100+ 100*scale, 0, 2*Math.PI, false);
-			this.ctx.fill();
-			this.ctx.closePath();
+			ctx.beginPath();
+			ctx.fillStyle = makeColor(0, 0, 0, .50 - scale/10.0);
+			ctx.arc(canvas.width/2, canvas.height/2, 100+ 100*scale, 0, 2*Math.PI, false);
+			ctx.fill();
+			ctx.closePath();
 
 		}	
 
-		this.visualization.waveformLines.draw(waveformData,this.ctx, this.canvas);
+		this.visualization.waveformLines.draw(waveformData);
 
 		//draw top circle
-		this.ctx.beginPath();
-		this.ctx.fillStyle = "black";
-		this.ctx.arc(canvas.width/2, canvas.height/2, 50, 0, 2*Math.PI, false);
-		this.ctx.fill();
-		this.ctx.closePath();
-		
-
-
+		ctx.beginPath();
+		ctx.fillStyle = "black";
+		ctx.arc(canvas.width/2, canvas.height/2, 50, 0, 2*Math.PI, false);
+		ctx.fill();
+		ctx.closePath();
 	};
 
 	return obj;
@@ -245,8 +265,6 @@ application.visualizer = function(){
 
 			//function to draw our curves
 	function drawQuadCurve(ctx,x1,y1,cpX,cpY,x2,y2,color){
-		ctx.save();
-
 		ctx.strokeStyle = color; //set the color
 		ctx.lineWidth = 1; //set the line width
 
@@ -256,8 +274,6 @@ application.visualizer = function(){
 			
 		//draw the path
 		ctx.stroke();
-			
-		ctx.restore();
 	}
 
 
