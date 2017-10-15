@@ -180,7 +180,7 @@
 				<span id="particleLabel" class="optLabel"> Particles</span>
 				<button type="button" class="expandButton"> </button>
 				<div id="particleAdvanced" class="advancedOptions slidehorizontal" > 
-					<div id="particlesMaxParticles"> 
+					<div id="maxParticles"> 
 						<label for="maxParticleSlider">Maximum Particle Count</label>
 						<input id="maxParticleSlider" class="slider" type ="range" min ="0" max="1000" step ="10" value ="100"/>
 					</div>
@@ -223,11 +223,11 @@
 					<div id="wlineLocation"> 
 						<header class="optionHeader"> Location </header>
 						<label for="wlineLocationCenterCheckbox">Center</label>
-						<input id="wlineLocationCenterCheckbox" type="checkbox" checked />
+						<input id="wlineLocationCenterCheckbox" type="checkbox" checked value="Center"/>
 						<label for="wlineLocationBackgroundCheckbox">Background</label>
-						<input id="wlineLocationBackgroundCheckbox" type="checkbox" />
+						<input id="wlineLocationBackgroundCheckbox" type="checkbox" value="Background"/>
 						<label for="wlineLocationOverlayCheckbox">Overlay</label>
-						<input id="wlineLocationOverlayCheckbox" type="checkbox"/>
+						<input id="wlineLocationOverlayCheckbox" type="checkbox" value="Overlay"/>
 					</div>
 				</div>
 			</div>
@@ -259,18 +259,27 @@
 						<label for="eqbarWidthSlider">Width</label>
 						<input id="eqbarWidthSlider" class="slider" type ="range" min ="0" max="100" step ="1" value ="10"/>
 					</div>
+					<div id="eqbarAppearance"> 
+						<header class="optionHeader">Appearance</header>
+						<label for="eqbarAppearanceRectangular">Rectangular</label>
+						<input id="eqbarAppearanceRectangular" type="radio" checked value="Rectangular"/>
+						<label for="eqbarAppearanceRounded">Rounded</label>
+						<input id="eqbarAppearanceRounded" type="radio" value="Rounded"/>
+						<label for="eqbarAppearanceLine">Line</label>
+						<input id="eqbarAppearanceLine" type="radio" value="Line"/>
+					</div>
 					<div id="eqbarLocation"> 
 						<header class="optionHeader"> Location </header>
 						<label for="eqbarLocationCenterCheckbox">Center</label>
-						<input id="eqbarLocationCenterCheckbox" type="checkbox" checked />
+						<input id="eqbarLocationCenterCheckbox" type="checkbox" checked value = "Center"/>
 						<label for="eqbarLocationBackgroundCheckbox">Background</label>
-						<input id="eqbarLocationBackgroundCheckbox" type="checkbox" />
+						<input id="eqbarLocationBackgroundCheckbox" type="checkbox" value="Background"/>
 						<label for="eqbarLocationOverlayCheckbox">Overlay</label>
-						<input id="eqbarLocationOverlayCheckbox" type="checkbox"/>
+						<input id="eqbarLocationOverlayCheckbox" type="checkbox" value="Overlay"/>
 						<label for="eqbarLocationBottomCheckbox">Bottom</label>
-						<input id="eqbarLocationBottomCheckbox" type="checkbox"/>
+						<input id="eqbarLocationBottomCheckbox" type="checkbox" value="Bottom"/>
 						<label for="eqbarLocationTopCheckbox">Top</label>
-						<input id="eqbarLocationTopCheckbox" type="checkbox"/>
+						<input id="eqbarLocationTopCheckbox" type="checkbox" value="Top"/>
 					</div>
 				</div>
 			</div>
@@ -284,11 +293,11 @@
 					<div id="dynamicBgType"> 
 						<header class="optionHeader">Type</header>
 						<label for="dynamicBgTypeGradient">Gradient</label>
-						<input id="dynamicBgTypeGradient" type="radio" checked />
+						<input id="dynamicBgTypeGradient" type="radio" checked value="Gradient"/>
 						<label for="dynamicBgTypeVideo">Video</label>
-						<input id="dynamicBgTypeVideo" type="radio" />
+						<input id="dynamicBgTypeVideo" type="radio" value="Video"/>
 						<label for="dynamicBgTypeSpectogram">Spectogram</label>
-						<input id="dynamicBgTypeSpectogram" type="radio"/>
+						<input id="dynamicBgTypeSpectogram" type="radio" value="Spectogram"/>
 					</div>
 			    </div>
 			</div>

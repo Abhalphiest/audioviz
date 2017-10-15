@@ -163,6 +163,12 @@ application.ui = function(){
 						case "dynamicBgSettings":
 							application.visualizer.visualization.dynamicBG.enabled = option.enabled;
 						break;
+						case "invertSetting":
+							application.visualizer.visualization.invert = option.enabled;
+						break;
+						case "greyscaleSetting":
+							application.visualizer.visualization.greyscale = option.enabled;
+						break;
 					}
 				},
 			},
@@ -287,6 +293,9 @@ application.ui = function(){
 				}
 			}.bind(this);
 
+
+			// equalizer settings
+
 			function setEqSetting(){
 				var equalizer = application.audio.equalizer;
 				switch(this.id){
@@ -318,6 +327,8 @@ application.ui = function(){
 				input.addEventListener("input", setEqSetting);
 			}
 
+			// visualization settings
+
 			var visualizationSettings = this.options.visualizationSettings;
 			for(var i = 0; i < this.options.visualizationSettings.settings.length; i++){
 				var option = visualizationSettings.settings[i];
@@ -337,6 +348,80 @@ application.ui = function(){
 
 			}
 
+			// visualization  advanced options
+
+			// everything except for color
+			var visualizationAdvancedOptions = visualizationSettings.element.querySelectorAll(".advancedOptions");
+			var advancedOptionInputs = [];
+
+			for(var i = 0; i < visualizationAdvancedOptions.length; i++)
+				Array.prototype.push.apply(advancedOptionInputs,visualizationAdvancedOptions[i].querySelectorAll('input'));
+
+			advancedOptionInputs.forEach(function(input){
+				input.addEventListener("change", setAdvancedOptions);
+				input.addEventListener("input", setAdvancedOptions);
+			}); 
+
+			function setAdvancedOptions(){
+				
+				// I must have been a real jerk in a past life
+				switch(this.parentElement.id){
+					case "bezierMaxCurveHeight":
+						application.visualizer.visualization.bezierCurves.maxCurveHeight = this.value;
+					break;
+
+					case "bezierControlPointOffset":
+						application.visualizer.visualization.bezierCurves.controlPointOffset = this.value;
+					break;
+
+					case "bezierTrailEffect":
+						application.visualizer.visualization.bezierCurves.trailEffect = this.checked;
+					break;
+
+					case "maxParticles":
+						application.visualizer.visualization.particles.maxParticles = this.value;
+					break;
+
+					case "particlesLifetime":
+						application.visualizer.visualization.particles.lifetime = this.value;
+					break;
+
+					case "particleColors":
+						// no fucking clue
+					break;
+
+					case "wlineScale":
+						application.visualizer.visualization.waveformLines.scale = this.value;
+					break;
+
+					case "wlineLocation":
+						application.visualizer.visualization.waveformLines.location = this.value;
+					break;
+
+					case "eqbarHeight":
+						application.visualizer.visualization.eqBars.height = this.value;
+					break;
+
+					case "eqbarWidth":
+						application.visualizer.visualization.eqBars.width = this.value;
+					break;
+
+					case "eqbarAppearance":
+						application.visualizer.visualization.eqBars.appearance = this.value;
+					break;
+
+					case "eqbarLocation":
+						application.visualizer.visualization.eqBars.location = this.value;
+					break;
+
+					case "dynamicBgType":
+						application.visualizer.visualization.dynamicBG.type = this.value;
+					break;
+
+				}
+
+
+			}
 
 			// color selectors.. what drove me to this?
 			var colorOptions = document.querySelectorAll(".colorOption");
