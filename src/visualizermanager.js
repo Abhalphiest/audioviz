@@ -25,6 +25,9 @@ application.visualizer = function(){
 		this.visualization = {
 			bezierCurves:{
 				draw: function(frequencyData, ctx, canvas){
+					if(!this.enabled)
+						return;
+
 					ctx.save();
 					for(var i = 0; i < frequencyData.length; i++){
 					var scale = frequencyData[i]/255.0;
@@ -50,6 +53,9 @@ application.visualizer = function(){
 			},
 			particles:{
 				draw: function(){
+					if(!this.enabled)
+						return;
+
 
 				},
 				enabled:false,
@@ -59,40 +65,78 @@ application.visualizer = function(){
 				colors: [],
 				// TODO: figure out what to do here before continuing to code
 			},
-			waveFormLines:{
+			waveformLines:{
 				draw: function(waveformData, ctx, canvas){
-					ctx.save();
-					ctx.strokeStyle = this.color;
-					ctx.lineWidth = 2;
-					ctx.beginPath();
-					var sliceWidth = canvas.width * (1.0/waveformData.length);
-					var x = 0;
-					for (var i = 0; i < waveformData.length; i++){
-						var v = waveformData[i] / 128.0; 
-						var y = v * canvas.height/2;
 
-						if( i === 0 ){
-							ctx.moveTo(x, y);
-						}
-						else{
-							ctx.lineTo(x,y);
-						}
+					if(!this.enabled)
+						return;
 
-						x+= sliceWidth;
-					}
-					ctx.lineTo(canvas.width, canvas.height/2);
-					ctx.stroke();
-					ctx.restore();
+					switch(this.location){
+						case "Background":
+							ctx.save();
+							ctx.strokeStyle = this.color;
+							ctx.lineWidth = 2;
+							ctx.beginPath();
+							var sliceWidth = canvas.width * (1.0/waveformData.length);
+							var x = 0;
+							for (var i = 0; i < waveformData.length; i++){
+								var v = waveformData[i]; 
+								var y = v+canvas.height/2;
+
+								if( i === 0 ){
+									ctx.moveTo(x, y);
+								}
+								else{
+									ctx.lineTo(x,y);
+								}
+
+								x++;
+							}
+							ctx.lineTo(canvas.width, canvas.height/2);
+							ctx.stroke();
+							ctx.restore();
+						break;
+						case "Center":
+							// wiggly circle thing
+							var angleStep = (Math.PI*2)/waveformData.length;
+							var theta = angleStep;
+							var radius = 50;
+							ctx.strokeStyle = "white";
+							ctx.beginPath();
+							var x,y;
+
+							for(var i = 0; i < waveformData.length; i++){
+								var scale = waveformData[i]/128;
+								x = canvas.width/2+Math.cos(theta)*radius*scale*2;
+								y = canvas.height/2+Math.sin(theta)*radius*scale*2;
+
+								if(i === 0)
+									ctx.moveTo(x,y);
+								else
+									ctx.lineTo(x,y);
+								theta+=angleStep;
+							}
+							ctx.lineTo(canvas.width/2+radius*2*waveformData[0]/128,canvas.height/2);
+							ctx.stroke();
+							ctx.closePath();
+						break;
+						case "Overlay":
+
+
+						break;
+				}
 
 				},
 				enabled:false,
 				scale: 1,
-				location: "Background", // Center (wrapped around circle), Background, Overlay
-				color: "blue",
+				location: "Center", // Center (wrapped around circle), Background, Overlay
+				color: "white",
 
 			},
 			eqBars:{
 				draw: function(){
+					if(!this.enabled)
+						return;
 
 				},
 				enabled:false,
@@ -104,11 +148,36 @@ application.visualizer = function(){
 
 			},
 			dynamicBG:{
-				draw: function(){
+				draw: function(frequencyData, ctx, canvas){
+					if(!this.enabled)
+						return;
 
+					switch(type)
+					{
+						case "Gradient":
+
+							break;
+						case "Video":
+
+							break;
+						case "Spectogram":
+							var spectOffset = 0;
+							var slice = ctx.getImageData(0,spectOffset, canvas.width, 1);
+							for(var i = 0; i < frequencyData.length; i++)
+							{
+								slice.data[4* i+0] = frequencyData[i]; // R
+								slice.data[4 * i + 1] = frequencyData[i] // G
+    							slice.data[4 * i + 2] = frequencyData[i] // B
+    							slice.data[4 * i + 3] = 255         // A
+							}
+							ctx.putImageData(slice, 0, spectOffset);
+							spectOffset++;
+							spectOffset%= canvas.height;
+							break;
+					}
 				},
 				enabled:false,
-				type: "Gradient", // Gradient, Video
+				type: "Gradient", // Gradient, Video, Spectogram
 			},
 
 			// post processing effects
@@ -139,8 +208,7 @@ application.visualizer = function(){
 		// clear the screen for drawing
 		this.ctx.clearRect(0,0,canvas.width,canvas.width);  
 		
-		//this.visualization.bezierCurves.draw(frequencyData, this.ctx, this.canvas);
-		this.visualization.waveFormLines.draw(waveformData,this.ctx, this.canvas);
+		this.visualization.bezierCurves.draw(frequencyData, this.ctx, this.canvas);
 		for(var i = 0; i < frequencyData.length; i++){
 			var scale = frequencyData[i]/255.0;
 
@@ -153,28 +221,7 @@ application.visualizer = function(){
 
 		}	
 
-		// wiggly circle thing
-		var angleStep = (Math.PI*2)/waveformData.length;
-		var theta = angleStep;
-		var radius = 50;
-		this.ctx.strokeStyle = "white";
-		this.ctx.beginPath();
-		var x,y;
-
-		for(var i = 0; i < waveformData.length; i++){
-			var scale = waveformData[i]/128;
-			x = canvas.width/2+Math.cos(theta)*radius*scale*2;
-			y = canvas.height/2+Math.sin(theta)*radius*scale*2;
-
-			if(i === 0)
-				this.ctx.moveTo(x,y);
-			else
-				this.ctx.lineTo(x,y);
-			theta+=angleStep;
-		}
-		this.ctx.lineTo(canvas.width/2+radius*2*waveformData[0]/128,canvas.height/2);
-		this.ctx.stroke();
-		this.ctx.closePath();
+		this.visualization.waveformLines.draw(waveformData,this.ctx, this.canvas);
 
 		//draw top circle
 		this.ctx.beginPath();

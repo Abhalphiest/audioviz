@@ -137,13 +137,41 @@
 		</section>
 		<section id="visualizationSettings">
 			<header> Visualization Settings </header>
-			<div id="quadCurveSettings" class="visOption">
+			<div id="bezierCurveSettings" class="visOption">
 				<span class="checkSwitch">
-					<input type="checkbox" id="quadCurveCheckbox" /><label for="quadCurveCheckbox"></label>
+					<input type="checkbox" id="bezierCurveCheckbox" /><label for="bezierCurveCheckbox"></label>
 				</span>
-				<span id="quadCurveLabel" class="optLabel"> Bezier Curves</span>
+				<span id="bezierCurveLabel" class="optLabel"> Bezier Curves</span>
 				<button type="button" class="expandButton"> </button>
-				<div id="quadCurveAdvanced" class="advancedOptions slidehorizontal" > </div>
+				<div id="bezierCurveAdvanced" class="advancedOptions slidehorizontal">
+					<div class = "colorOption">
+						<header class="optionHeader">Color</header>
+						<span class="colorRadioButtons">
+  							<input id="bezierRGBColor" class="colorRadio" type="radio" name="bezierColor" checked>
+  							<label for="bezierRGBColor"><span><span></span></span>RGB</label>
+  							<input id="bezierHSLColor" class="colorRadio" type="radio" name="bezierColor">
+  							<label for="bezierHSLColor"><span><span></span></span>HSL</label>
+  							<input id="bezierHexColor" class="colorRadio" type="radio" name="bezierColor">
+  							<label for="bezierHexColor"><span><span></span></span>Hex</label>
+  						</span>
+  						<div class="colorPicker">
+
+  						</div>
+  						<span class="colorPreview"> Preview </span>
+					</div>
+					<div id="bezierMaxCurveHeight"> 
+						<label for="maxCurveHeightSlider">Maximum Curve Height</label>
+						<input id="maxCurveHeightSlider" class="slider" type ="range" min ="0" max="3000" step ="100" value ="1000"/>
+					</div>
+					<div id="bezierControlPointOffset"> 
+						<label for="controlPointOffsetSlider">Control Point Offset</label>
+						<input id="controlPointOffsetSlider" class="slider" type ="range" min ="-2000" max="2000" step ="100" value ="1000"/>
+					</div>
+					<div id="bezierTrailEffect"> 
+						<label for="trailEffectCheckbox">Show Trails</label>
+						<input id="trailEffectCheckbox" type ="checkbox" />
+					</div>
+				</div>
 			</div>
 			<div id="particleSettings" class="visOption">
 				<span class="checkSwitch">
@@ -151,7 +179,20 @@
 				</span>
 				<span id="particleLabel" class="optLabel"> Particles</span>
 				<button type="button" class="expandButton"> </button>
-				<div id="particleAdvanced" class="advancedOptions slidehorizontal" > </div>
+				<div id="particleAdvanced" class="advancedOptions slidehorizontal" > 
+					<div id="particlesMaxParticles"> 
+						<label for="maxParticleSlider">Maximum Particle Count</label>
+						<input id="maxParticleSlider" class="slider" type ="range" min ="0" max="1000" step ="10" value ="100"/>
+					</div>
+					<div id="particlesLifetime"> 
+						<label for="lifetimeSlider">Particle Lifetime</label>
+						<input id="lifetimeSlider" class="slider" type ="range" min ="0" max="1000" step ="10" value ="100"/>
+					</div>
+					<div id="particleColors"> 
+						<label for="particleColorCheckbox">Particle Colors</label>
+						<input id="particleColorCheckbox" type="checkbox"/>
+					</div>
+				</div>
 			</div>
 			<div id="wlineSettings" class="visOption">
 				<span class="checkSwitch">
@@ -159,7 +200,36 @@
 				</span>
 				<span id="wlineLabel" class="optLabel"> Waveform Lines </span>
 				<button type="button" class="expandButton"> </button>
-				<div id="wlineAdvanced" class="advancedOptions slidehorizontal" > </div>
+				<div id="wlineAdvanced" class="advancedOptions slidehorizontal" > 
+					<div class = "colorOption">
+						<header class="optionHeader">Color</header>
+						<span class="colorRadioButtons">
+  							<input id="wlineRGBColor" class="colorRadio" type="radio" name="wlineColor" checked>
+  							<label for="wlineRGBColor"><span><span></span></span>RGB</label>
+  							<input id="wlineHSLColor" class="colorRadio" type="radio" name="wlineColor">
+  							<label for="wlineHSLColor"><span><span></span></span>HSL</label>
+  							<input id="wlineHexColor" class="colorRadio" type="radio" name="wlineColor">
+  							<label for="wlineHexColor"><span><span></span></span>Hex</label>
+  						</span>
+  						<div class="colorPicker">
+
+  						</div>
+  						<span class="colorPreview"> Preview </span>
+					</div>
+					<div id="wlineScale"> 
+						<label for="wlineScaleSlider">Scale</label>
+						<input id="wlineScaleSlider" class="slider" type ="range" min ="0" max="100" step ="1" value ="1"/>
+					</div>
+					<div id="wlineLocation"> 
+						<header class="optionHeader"> Location </header>
+						<label for="wlineLocationCenterCheckbox">Center</label>
+						<input id="wlineLocationCenterCheckbox" type="checkbox" checked />
+						<label for="wlineLocationBackgroundCheckbox">Background</label>
+						<input id="wlineLocationBackgroundCheckbox" type="checkbox" />
+						<label for="wlineLocationOverlayCheckbox">Overlay</label>
+						<input id="wlineLocationOverlayCheckbox" type="checkbox"/>
+					</div>
+				</div>
 			</div>
 			<div id="eqbarSettings" class="visOption">
 				<span class="checkSwitch">
@@ -167,7 +237,42 @@
 				</span>
 				<span id="eqbarLabel" class="optLabel"> EQ Bars </span>
 				<button type="button" class="expandButton"> </button>
-				<div id="eqbarAdvanced" class="advancedOptions slidehorizontal" > </div>
+				<div id="eqbarAdvanced" class="advancedOptions slidehorizontal" > 
+					<div class = "colorOption">
+						<header class="optionHeader">Color</header>
+						<span class="colorRadioButtons">
+  							<input id="eqbarRGBColor" class="colorRadio" type="radio" name="eqbarColor" checked>
+  							<label for="eqbarRGBColor"><span><span></span></span>RGB</label>
+  							<input id="eqbarHSLColor" class="colorRadio" type="radio" name="eqbarColor">
+  							<label for="eqbarHSLColor"><span><span></span></span>HSL</label>
+  							<input id="eqbarHexColor" class="colorRadio" type="radio" name="eqbarColor">
+  							<label for="eqbarHexColor"><span><span></span></span>Hex</label>
+  						</span>
+  						<div class="colorPicker"></div>
+  						<span class="colorPreview"> Preview </span>
+					</div>
+					<div id="eqbarHeight"> 
+						<label for="eqbarHeightSlider">Height</label>
+						<input id="eqbarHeightSlider" class="slider" type ="range" min ="0" max="1000" step ="10" value ="300"/>
+					</div>
+					<div id="eqbarWidth"> 
+						<label for="eqbarWidthSlider">Width</label>
+						<input id="eqbarWidthSlider" class="slider" type ="range" min ="0" max="100" step ="1" value ="10"/>
+					</div>
+					<div id="eqbarLocation"> 
+						<header class="optionHeader"> Location </header>
+						<label for="eqbarLocationCenterCheckbox">Center</label>
+						<input id="eqbarLocationCenterCheckbox" type="checkbox" checked />
+						<label for="eqbarLocationBackgroundCheckbox">Background</label>
+						<input id="eqbarLocationBackgroundCheckbox" type="checkbox" />
+						<label for="eqbarLocationOverlayCheckbox">Overlay</label>
+						<input id="eqbarLocationOverlayCheckbox" type="checkbox"/>
+						<label for="eqbarLocationBottomCheckbox">Bottom</label>
+						<input id="eqbarLocationBottomCheckbox" type="checkbox"/>
+						<label for="eqbarLocationTopCheckbox">Top</label>
+						<input id="eqbarLocationTopCheckbox" type="checkbox"/>
+					</div>
+				</div>
 			</div>
 			<div id="dynamicBgSettings" class="visOption">
 				<span class="checkSwitch">
@@ -175,7 +280,17 @@
 				</span>
 				<span id="dynamicBgLabel" class="optLabel"> Dynamic Background </span>
 				<button type="button" class="expandButton"> </button>
-				<div id="dynamicBgAdvanced" class="advancedOptions slidehorizontal" > </div>
+				<div id="dynamicBgAdvanced" class="advancedOptions slidehorizontal" >
+					<div id="dynamicBgType"> 
+						<header class="optionHeader">Type</header>
+						<label for="dynamicBgTypeGradient">Gradient</label>
+						<input id="dynamicBgTypeGradient" type="radio" checked />
+						<label for="dynamicBgTypeVideo">Video</label>
+						<input id="dynamicBgTypeVideo" type="radio" />
+						<label for="dynamicBgTypeSpectogram">Spectogram</label>
+						<input id="dynamicBgTypeSpectogram" type="radio"/>
+					</div>
+			    </div>
 			</div>
 		</section>
 		<button id="resetButton" type="button">Reset to Defaults</button>
