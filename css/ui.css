@@ -108,6 +108,7 @@ body {
   width: 100%;
   bottom: 0;
   text-align: center;
+  z-index: 10;
 }
 
 #controlsBG{
@@ -116,7 +117,7 @@ body {
   width:100%;
   top:15px;
   background-color:#333333;
-  z-index: -2;
+  z-index: -1;
 }
 
 #bottomsensor{
@@ -216,6 +217,7 @@ padding:0;
   bottom:0;
   height: 100%;
   border-radius: 0px 5px 0px 0px;
+  z-index:8;
 }
 
 #equalizerSettings{
@@ -287,25 +289,66 @@ padding:0;
   border-radius:0px 5px 5px 0px;
 }
 
+#visualizationSettings .optionHeader{
+  font-size:.85em;
+  margin-bottom:0px;
+  padding-left: 5px;
+}
+
+.advancedOptions .slider{
+  width: 50%;
+  float:right;
+  padding-right:10px;
+  margin-top:15px;
+}
+
+#maxParticleSlider{
+  width:40%;
+}
+
+#wlineScaleSlider{
+  width:60%;
+}
+
+#eqbarHeightSlider, #eqbarWidthSlider{
+  width:70%;
+}
+.advancedOptions label{
+  font-size:.7em;
+  margin-left: 10px;
+}
 .expandButton{
   position:absolute;
   right: 5px;
-  top: 7px;
+  top: 5px;
+  width:20px;
+  height:20px;
+  cursor: pointer;
+  border-radius: 50%;
+  text-align:center;
+  padding:0;
+  background:transparent;
+  box-shadow:none;
+  outline: none;
+  border:none;
 }
+
+
 
 
 /* Color Settings */
 
 .colorOption{
-
+  padding-bottom: 10px;
 }
 
-#visualizationSettings .colorOption .optionHeader{
+#visualizationSettings .colorOption .colorHeader{
   padding:0;
   margin:0;
   padding-left: 5px;
   margin-bottom:0;
   display:inline-block;
+  font-size:.85em;
 }
 
 .colorOption .colorRadioButtons{
@@ -324,7 +367,24 @@ padding:0;
 }
 
 .colorPicker .slider{
-  width: 40%;
+  width: 50%;
+  margin-top: 15px;
+}
+
+.hexTextBox{
+  height:76.8px; /* I don't want to talk about this */
+}
+
+.hexTextBox input{
+  width: 50%;
+  float:right;
+  margin-right:20px;
+  margin-top:30px;
+}
+
+.hexTextBox label{
+  display:inline-block;
+  margin-top:30px;
 }
 
 .colorPreview{
@@ -396,7 +456,7 @@ padding:0;
 /* CUSTOM RADIO BUTTONS */
 
 /* Hides the old radio button on all but outdated browsers that don't support :checked (they don't support :not, either..)*/
-input[type=radio]:not(old){
+/*input[type=radio]:not(old){
   width:2em;
   margin:0;
   padding:0;
@@ -418,34 +478,17 @@ input[type=radio]:not(old) + label > span{
   border           : 0.0625em solid rgb(192,192,192);
   border-radius    : 0.25em;
   background       : rgb(224,224,224);
-  background-image :    -moz-linear-gradient(rgb(240,240,240),rgb(224,224,224));
-  background-image :     -ms-linear-gradient(rgb(240,240,240),rgb(224,224,224));
-  background-image :      -o-linear-gradient(rgb(240,240,240),rgb(224,224,224));
-  background-image : -webkit-linear-gradient(rgb(240,240,240),rgb(224,224,224));
-  background-image :         linear-gradient(rgb(240,240,240),rgb(224,224,224));
   vertical-align   : bottom;
 }
 
-input[type=radio   ]:not(old):checked + label > span{
-  background-image :    -moz-linear-gradient(rgb(224,224,224),rgb(240,240,240));
-  background-image :     -ms-linear-gradient(rgb(224,224,224),rgb(240,240,240));
-  background-image :      -o-linear-gradient(rgb(224,224,224),rgb(240,240,240));
-  background-image : -webkit-linear-gradient(rgb(224,224,224),rgb(240,240,240));
-  background-image :         linear-gradient(rgb(224,224,224),rgb(240,240,240));
-}
 
 input[type=radio]:not(old):checked + label > span > span{
   display          : block;
-  width            : 0.2em;
-  height           : 0.2em;
-  margin           : 0.125em;
+  width            : 0.3em;
+  height           : 0.3em;
+  margin           : 0.1em;
   border           : 0.0625em solid rgb(115,153,77);
   border-radius    : 0.125em;
-  background       : rgb(153,204,102);
-  background-image :    -moz-linear-gradient(rgb(179,217,140),rgb(153,204,102));
-  background-image :     -ms-linear-gradient(rgb(179,217,140),rgb(153,204,102));
-  background-image :      -o-linear-gradient(rgb(179,217,140),rgb(153,204,102));
-  background-image : -webkit-linear-gradient(rgb(179,217,140),rgb(153,204,102));
-  background-image :         linear-gradient(rgb(179,217,140),rgb(153,204,102));
-}
+  background-color : black;
+}*/
 

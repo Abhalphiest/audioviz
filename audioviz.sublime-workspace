@@ -4,6 +4,58 @@
 		"selected_items":
 		[
 			[
+				"hei",
+				"heightScale"
+			],
+			[
+				"context",
+				"context"
+			],
+			[
+				"prev",
+				"prevOffset"
+			],
+			[
+				"of",
+				"offset"
+			],
+			[
+				"reverse",
+				"reverseoffset"
+			],
+			[
+				"slice",
+				"sliceWidth"
+			],
+			[
+				"wa",
+				"waveformLines"
+			],
+			[
+				"in",
+				"input"
+			],
+			[
+				"visua",
+				"visualizationAdvancedOptions"
+			],
+			[
+				"paren",
+				"parentElement"
+			],
+			[
+				"advancedo",
+				"advancedOptionInputs"
+			],
+			[
+				"vi",
+				"visualizationAdvancedOptions"
+			],
+			[
+				"visualzati",
+				"visualizationSettings"
+			],
+			[
 				"radio",
 				"radioButtons"
 			],
@@ -18,10 +70,6 @@
 			[
 				"inlin",
 				"inline-block"
-			],
-			[
-				"wa",
-				"waveformData"
 			],
 			[
 				"prese",
@@ -236,10 +284,37 @@
 	"buffers":
 	[
 		{
+			"file": "visualizer.html",
+			"settings":
+			{
+				"buffer_size": 15303,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "css/ui.css",
+			"settings":
+			{
+				"buffer_size": 8174,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/visualizermanager.js",
+			"settings":
+			{
+				"buffer_size": 18569,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "src/uimanager.js",
 			"settings":
 			{
-				"buffer_size": 22215,
+				"buffer_size": 26249,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -249,22 +324,6 @@
 			"settings":
 			{
 				"buffer_size": 6646,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/visualizermanager.js",
-			"settings":
-			{
-				"buffer_size": 6856,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "css/ui.css",
-			"settings":
-			{
-				"buffer_size": 8564,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -300,11 +359,21 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/C/Users/user/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer",
+		"/C/Users/user/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/css",
+		"/C/Users/user/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src"
+	],
 	"file_history":
 	[
-		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/css/generated.css",
-		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/utilities.js",
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/workspace.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/app/sheep.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/utilities.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/css/ui.css",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/audiomanager.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/uimanager.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/css/generated.css",
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/styles/ui.css",
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/app/input.js",
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/app/gameManager.js",
@@ -316,10 +385,7 @@
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/server.js",
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/app/network.js",
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/visualizer.html",
-		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/audiomanager.js",
-		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/uimanager.js",
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/visualizermanager.js",
-		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/css/ui.css",
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/server_modules/log.js",
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/Boomshine-ICE-start/Boomshine-ICE-start/js/emitter.js",
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/ui.css",
@@ -377,7 +443,7 @@
 	],
 	"find":
 	{
-		"height": 52.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -392,6 +458,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"optionHeader",
 			"visualization",
 			"consol",
 			"Emitter",
@@ -440,28 +507,28 @@
 			[
 				{
 					"buffer": 0,
-					"file": "src/uimanager.js",
+					"file": "visualizer.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 22215,
+						"buffer_size": 15303,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12428,
-								12428
+								9666,
+								9674
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 23.0,
-						"translation.y": 6784.0,
+						"translation.x": 0.0,
+						"translation.y": 3383.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -469,6 +536,94 @@
 				},
 				{
 					"buffer": 1,
+					"file": "css/ui.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8174,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8170,
+								7345
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 6699.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/visualizermanager.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 18569,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10289,
+								10289
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 4390.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/uimanager.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 26249,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13441,
+								13441
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 5715.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
 					"file": "src/audiomanager.js",
 					"semi_transient": false,
 					"settings":
@@ -480,8 +635,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								1030,
+								1030
 							]
 						],
 						"settings":
@@ -490,69 +645,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3394.0,
+						"translation.y": 90.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/visualizermanager.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6856,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3910,
-								3910
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 42.0,
-						"translation.y": 2568.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "css/ui.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8564,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4236,
-								4236
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 5630.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -560,7 +656,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 30.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -597,7 +693,7 @@
 	"project": "audioviz.sublime-project",
 	"replace":
 	{
-		"height": 55.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -635,7 +731,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 88.0,
+	"side_bar_width": 219.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

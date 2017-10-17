@@ -395,15 +395,12 @@ application.ui = function(){
 					break;
 
 					case "wlineLocation":
+						console.log(this.value);
 						application.visualizer.visualization.waveformLines.location = this.value;
 					break;
 
 					case "eqbarHeight":
 						application.visualizer.visualization.eqBars.height = this.value;
-					break;
-
-					case "eqbarWidth":
-						application.visualizer.visualization.eqBars.width = this.value;
 					break;
 
 					case "eqbarAppearance":
