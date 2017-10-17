@@ -177,6 +177,7 @@
 				<span id="bezierCurveLabel" class="optLabel"> Bezier Curves</span>
 				<button type="button" class="expandButton"> <img src="media/settingsgearwhite.png" height=20 width=20 alt="Advanced Settings"></button>
 				<div id="bezierCurveAdvanced" class="advancedOptions slidehorizontal">
+					<div class = "advancedOptionsWrapper">
 					<div class = "colorOption">
 						<header class="colorHeader">Color</header>
 						<span class="colorRadioButtons">
@@ -190,8 +191,9 @@
   						<div class="colorPicker" id="bezierColorPicker">
 
   						</div>
-  						<span class="colorPreview"> Preview </span>
+  						<span class="colorPreview"></span>
 					</div>
+					<header class="optionHeader">Adjustments</header>
 					<div id="bezierMaxCurveHeight"> 
 						<label for="maxCurveHeightSlider">Maximum Curve Height</label>
 						<input id="maxCurveHeightSlider" class="slider" type ="range" min ="0" max="3000" step ="100" value ="1000"/>
@@ -201,8 +203,12 @@
 						<input id="controlPointOffsetSlider" class="slider" type ="range" min ="900" max="1100" step ="10" value ="1000"/>
 					</div>
 					<div id="bezierTrailEffect"> 
-						<label for="trailEffectCheckbox">Show Trails</label>
-						<input id="trailEffectCheckbox" type ="checkbox" />
+						<header class = "optionHeader">Trails</header>
+						<span class="checkSwitch">
+							<input id="trailEffectCheckbox" type ="checkbox" /> <label for="trailEffectCheckbox"></label>
+						</span>
+						
+					</div>
 					</div>
 				</div>
 			</div>
@@ -214,6 +220,7 @@
 				<span id="eqbarLabel" class="optLabel"> EQ Bars </span>
 				<button type="button" class="expandButton"><img src="media/settingsgearwhite.png" height=20 width=20 alt="Advanced Settings"> </button>
 				<div id="eqbarAdvanced" class="advancedOptions slidehorizontal" > 
+					<div class = "advancedOptionsWrapper">
 					<div class = "colorOption">
 						<header class="colorHeader">Color</header>
 						<span class="colorRadioButtons">
@@ -225,31 +232,34 @@
   							<label for="eqbarHexColor"><span><span></span></span>Hex</label>
   						</span>
   						<div class="colorPicker" id="eqbarColorPicker"></div>
-  						<span class="colorPreview"> Preview </span>
+  						<span class="colorPreview"></span>
 					</div>
+					<div id="eqbarAppearance"> 
+						<header class="optionHeader">Appearance</header>
+						
+						<input id="eqbarAppearanceRectangular" name="eqBarAppearance" type="radio" checked value="Rectangular"/>
+						<label for="eqbarAppearanceRectangular">Rectangular</label>
+						<input id="eqbarAppearanceRounded" name="eqBarAppearance" type="radio" value="Rounded"/>
+						<label for="eqbarAppearanceRounded">Rounded</label>
+						<input id="eqbarAppearanceLine" name="eqBarAppearance" type="radio" value="Line"/>
+						<label for="eqbarAppearanceLine">Line</label>
+					</div>
+					<div id="eqbarLocation"> 
+						<header class="optionHeader"> Location </header>
+						<input id="eqbarLocationCenter" name="eqBarLocation" type="radio" checked value = "Center"/>
+						<label for="eqbarLocationCenter">Center</label>
+						<input id="eqbarLocationBackground" name="eqBarLocation" type="radio" value="Background"/>
+						<label for="eqbarLocationBackground">Background</label>
+						<input id="eqbarLocationBottom" name="eqBarLocation" type="radio" value="Bottom"/>
+						<label for="eqbarLocationBottom">Bottom</label>
+						<input id="eqbarLocationTop" name="eqBarLocation" type="radio" value="Top"/>
+						<label for="eqbarLocationTop">Top</label>
+					</div>
+					<header class="optionHeader">Adjustments</header>
 					<div id="eqbarHeight"> 
 						<label for="eqbarHeightSlider">Height</label>
 						<input id="eqbarHeightSlider" class="slider" type ="range" min ="0" max="1000" step ="10" value ="300"/>
 					</div>
-					<div id="eqbarAppearance"> 
-						<header class="optionHeader">Appearance</header>
-						<label for="eqbarAppearanceRectangular">Rectangular</label>
-						<input id="eqbarAppearanceRectangular" type="radio" checked value="Rectangular"/>
-						<label for="eqbarAppearanceRounded">Rounded</label>
-						<input id="eqbarAppearanceRounded" type="radio" value="Rounded"/>
-						<label for="eqbarAppearanceLine">Line</label>
-						<input id="eqbarAppearanceLine" type="radio" value="Line"/>
-					</div>
-					<div id="eqbarLocation"> 
-						<header class="optionHeader"> Location </header>
-						<label for="eqbarLocationCenterCheckbox">Center</label>
-						<input id="eqbarLocationCenterCheckbox" type="radio" checked value = "Center"/>
-						<label for="eqbarLocationBackgroundCheckbox">Background</label>
-						<input id="eqbarLocationBackgroundCheckbox" type="radio" value="Background"/>
-						<label for="eqbarLocationBottomCheckbox">Bottom</label>
-						<input id="eqbarLocationBottomCheckbox" type="radio" value="Bottom"/>
-						<label for="eqbarLocationTopCheckbox">Top</label>
-						<input id="eqbarLocationTopCheckbox" type="radio" value="Top"/>
 					</div>
 				</div>
 			</div>
@@ -260,15 +270,8 @@
 				</span>
 				<span id="particleLabel" class="optLabel"> Particles</span>
 				<button type="button" class="expandButton"> <img src="media/settingsgearwhite.png" height=20 width=20 alt="Advanced Settings"></button>
-				<div id="particleAdvanced" class="advancedOptions slidehorizontal" > 
-					<div id="maxParticles"> 
-						<label for="maxParticleSlider">Maximum Particle Count</label>
-						<input id="maxParticleSlider" class="slider" type ="range" min ="0" max="500" step ="10" value ="200"/>
-					</div>
-					<div id="particlesLifetime"> 
-						<label for="lifetimeSlider">Particle Lifetime</label>
-						<input id="lifetimeSlider" class="slider" type ="range" min ="0" max="300" step ="10" value ="100"/>
-					</div>
+				<div id="particleAdvanced" class="advancedOptions slidehorizontal" >
+					<div class = "advancedOptionsWrapper"> 
 					<div id="particleColors"> 
 						<header class="optionHeader">Particle Colors</header>
 						<input id="particleColorCheckbox" value="" type="checkbox"/>
@@ -277,6 +280,16 @@
 						<input id="particleColorCheckbox" value="" type="checkbox"/>
 						<input id="particleColorCheckbox" value="" type="checkbox"/>
 						<input id="particleColorCheckbox" value="" type="checkbox"/>
+					</div>
+					<header class="optionHeader">Adjustments</header>
+					<div id="maxParticles"> 
+						<label for="maxParticleSlider">Maximum Particle Count</label>
+						<input id="maxParticleSlider" class="slider" type ="range" min ="0" max="500" step ="10" value ="200"/>
+					</div>
+					<div id="particlesLifetime"> 
+						<label for="lifetimeSlider">Particle Lifetime</label>
+						<input id="lifetimeSlider" class="slider" type ="range" min ="0" max="300" step ="10" value ="100"/>
+					</div>
 					</div>
 				</div>
 			</div>
@@ -289,6 +302,7 @@
 				<span id="wlineLabel" class="optLabel"> Waveform Lines </span>
 				<button type="button" class="expandButton"><img src="media/settingsgearwhite.png" height=20 width=20 alt="Advanced Settings"> </button>
 				<div id="wlineAdvanced" class="advancedOptions slidehorizontal" > 
+					<div class = "advancedOptionsWrapper">
 					<div class = "colorOption">
 						<header class="colorHeader">Color</header>
 						<span class="colorRadioButtons">
@@ -302,20 +316,24 @@
   						<div class="colorPicker" id="wlineColorPicker">
 
   						</div>
-  						<span class="colorPreview"> Preview </span>
+  						<span class="colorPreview"></span>
 					</div>
+					<div id="wlineLocation"> 
+						<header class="optionHeader"> Location </header>
+						
+						<input id="wlineLocationCenter" name="wlineLocation" type="radio" value="Center"/>
+						<label for="wlineLocationCenter">Center</label>
+						<input id="wlineLocationBackground" name="wlineLocation" type="radio" checked value="Background"/>
+						<label for="wlineLocationBackground">Background</label>
+						<input id="wlineLocationOverlay" name="wlineLocation" type="radio" value="Overlay"/>
+						<label for="wlineLocationOverlay">Overlay</label>
+					</div>
+					<header class="optionHeader">Adjustments</header>
 					<div id="wlineScale"> 
 						<label for="wlineScaleSlider">Waveform Scale</label>
 						<input id="wlineScaleSlider" class="slider" type ="range" min ="100" max="600" step ="20" value ="300"/>
 					</div>
-					<div id="wlineLocation"> 
-						<header class="optionHeader"> Location </header>
-						<label for="wlineLocationCenterCheckbox">Center</label>
-						<input id="wlineLocationCenterCheckbox" name="wlineLocation" type="radio" value="Center"/>
-						<label for="wlineLocationBackgroundCheckbox">Background</label>
-						<input id="wlineLocationBackgroundCheckbox" name="wlineLocation" type="radio" checked value="Background"/>
-						<label for="wlineLocationOverlayCheckbox">Overlay</label>
-						<input id="wlineLocationOverlayCheckbox" name="wlineLocation" type="radio" value="Overlay"/>
+					
 					</div>
 				</div>
 			</div>
@@ -328,14 +346,16 @@
 				<span id="dynamicBgLabel" class="optLabel"> Dynamic Background </span>
 				<button type="button" class="expandButton"> <img src="media/settingsgearwhite.png" height=20 width=20 alt="Advanced Settings"></button>
 				<div id="dynamicBgAdvanced" class="advancedOptions slidehorizontal" >
+					<div class = "advancedOptionsWrapper">
 					<div id="dynamicBgType"> 
 						<header class="optionHeader">Type</header>
+						<input id="dynamicBgTypeGradient" name="dynamicBgType" type="radio" checked value="Gradient"/>
 						<label for="dynamicBgTypeGradient">Gradient</label>
-						<input id="dynamicBgTypeGradient" type="radio" checked value="Gradient"/>
+						<input id="dynamicBgTypeVideo" name="dynamicBgType" type="radio" value="Video"/>
 						<label for="dynamicBgTypeVideo">Video</label>
-						<input id="dynamicBgTypeVideo" type="radio" value="Video"/>
+						<input id="dynamicBgTypeSpectogram" name="dynamicBgType" type="radio" value="Spectogram"/>
 						<label for="dynamicBgTypeSpectogram">Spectogram</label>
-						<input id="dynamicBgTypeSpectogram" type="radio" value="Spectogram"/>
+					</div>
 					</div>
 			    </div>
 			</div>
