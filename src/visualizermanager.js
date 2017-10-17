@@ -212,17 +212,12 @@ application.visualizer = function(){
 							background.ctx.restore();
 						break;
 						case "Center":
-							// wiggly circle thing
 							ctx.save();
-							angleStep = Math.PI/waveformData.length;
+							angleStep = Math.PI/offset.length;
 							theta = 0;
 							radius = 250;
 							ctx.fillStyle = this.color;
 							ctx.beginPath();
-							for(var i = 0; i < waveformData.length; i++){
-								// average with previous data to smooth the value
-								offset[i] = ((waveformData[i]/128.0 - 1) + this.prevOffset[i])/2;
-							}
 							for(var i = 0; i < offset.length; i++){
 								x = canvas.width/2+Math.cos(theta)*(radius + offset[i]*this.scale);
 								y = canvas.height/2+Math.sin(theta)*(radius +offset[i]*this.scale);
@@ -233,14 +228,21 @@ application.visualizer = function(){
 									ctx.lineTo(x,y);
 								theta+=angleStep;
 							}
-							ctx.fill();
+							for(var i = 0; i < offset.length; i++){
+								x = canvas.width/2+Math.cos(theta)*(radius + offset[i]*this.scale);
+								y = canvas.height/2+Math.sin(theta)*(radius +offset[i]*this.scale);
+
+								ctx.lineTo(x,y);
+								theta+=angleStep;
+							}
 							ctx.closePath();
+							ctx.fill();
 							ctx.restore();
 						break;
 						case "Overlay":
 							foreground.ctx.save();
 							// wiggly circle thing
-							angleStep = Math.PI/waveformData.length;
+							angleStep = Math.PI/offset.length;
 							theta = 0;
 							radius = 100;
 							foreground.ctx.strokeStyle = this.color;
@@ -256,9 +258,16 @@ application.visualizer = function(){
 									foreground.ctx.lineTo(x,y);
 								theta+=angleStep;
 							}
+							for(var i = 0; i < offset.length; i++){
+								x = canvas.width/2+Math.cos(theta)*(radius+offset[i]*this.scale);
+								y = canvas.height/2+Math.sin(theta)*(radius+offset[i]*this.scale);
+
+								foreground.ctx.lineTo(x,y);
+								theta+=angleStep;
+							}
 							foreground.ctx.lineTo(canvas.width/2+radius+ offset[i]*this.scale, canvas.height/2);
-							foreground.ctx.stroke();
 							foreground.ctx.closePath();
+							foreground.ctx.stroke();
 							foreground.ctx.restore();
 						break;
 				}
@@ -279,8 +288,18 @@ application.visualizer = function(){
 					var barWidth;
 					var barSpacing;
 
-					if(this.location === "Center"){
+					if(this.location === "Center"){ // hoo boy
+						var radius = 250;
+						var cyclicArray = [].slice.call(frequencyData);
+						cyclicArray = trimTrailingZeroes(cyclicArray);
+						while(cyclicArray.length < 2*radius*Math.PI/5)
+							cyclicArray = cyclicArray.concat(cyclicArray);
+						cyclicArray.length = 2*radius.Math.PI/5;
+						ctx.save();
+						for(var i = 0; i < cyclicArray.length; i++){
 
+						}
+						ctx.restore();
 					}
 					else if(this.location === "Background"){
 						background.ctx.save();
