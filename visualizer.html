@@ -35,50 +35,55 @@
 
 
 	</style>
+	<script>
+		// kind of a weird thing, but the app is architected to allow for dynamic tracks so it can be expanded later to be GP
+		// so this is a cheap easy hack for the sake of this project. THIS ISN'T A GLOBAL I DON'T KNOW WHAT YOU'RE ACCUSING ME OF
+		function getTracks(){
+			return ["Berlin", "Radio Protector", "Seatbelt Hands", "We Can Make The World Stop", "Yuna's Ballad", "Fireflies and Empty Skies"];
+		}
+	</script>
 	<script type="text/javascript" src="src/audiomanager.js"></script>
 	<script type="text/javascript" src="src/uimanager.js"></script>
 	<script type="text/javascript" src="src/visualizermanager.js"></script>
 	<script type="text/javascript" src="src/utilities.js"></script>
 	<script>
 
-	var tracks = ["Berlin", "Radio Protector", "Seatbelt Hands", "We Can Make The World Stop", "Yuna's Ballad", "Fireflies and Empty Skies"];
+	
 	(function(){
 		"use strict";
 
 		function init(){			
 			application.audio.initializeAudio();
-			application.audio.setStream("tracks/Berlin.mp3");
-			application.ui.initializeUI();
+			if(!application.audio.isInitialized()){
+				console.log("Audio failed to initialize");
+				return; // I'm taking my toys and going home
+			}
+			application.audio.setStream("tracks/Berlin.mp3")
 			application.visualizer.initializeVisualizer();
+			if(!application.visualizer.isInitialized()){
+				console.log("Visualizer failed to initialize");
+				return;
+			}
+			application.ui.initializeUI();
+			if(!application.ui.isInitialized()){
+				console.log("UI failed to initialize");
+				return;
+			}
 
 			// start animation loop
 			update();
 		}
 				
 		function update() { 
-			// animate at 60fps
-			requestAnimationFrame(update);
 
+			// animate at 60fps (I'm feeling optimistic)
+			requestAnimationFrame(update);
 			application.visualizer.update();
 			
 		} 
 		
-		 // FULL SCREEN MODE
-		function requestFullscreen(element) {
-			if (element.requestFullscreen) {
-			  element.requestFullscreen();
-			} else if (element.mozRequestFullscreen) {
-			  element.mozRequestFullscreen();
-			} else if (element.mozRequestFullScreen) { // camel-cased 'S' was changed to 's' in spec
-			  element.mozRequestFullScreen();
-			} else if (element.webkitRequestFullscreen) {
-			  element.webkitRequestFullscreen();
-			}
-			// .. and do nothing if the method is not supported
-		};
-		
-		
 		window.onload=init;
+
 	}());
 		
 	</script>
@@ -99,7 +104,7 @@
 				<div id="trackControl" >
 					<ul id="trackList" class="slide" > </ul>
 					<div id="trackSelect">
-						<span id="currentTrack">Select a Track</span>
+						<span id="currentTrack">Select a Track (Default: "Berlin")</span>
 					</div>
 				</div>
 				<span id="volumeControl">
@@ -274,12 +279,23 @@
 					<div class = "advancedOptionsWrapper"> 
 					<div id="particleColors"> 
 						<header class="optionHeader">Particle Colors</header>
-						<input id="particleColorCheckbox" value="" type="checkbox"/>
-						<input id="particleColorCheckbox" value="" type="checkbox"/>
-						<input id="particleColorCheckbox" value="" type="checkbox"/>
-						<input id="particleColorCheckbox" value="" type="checkbox"/>
-						<input id="particleColorCheckbox" value="" type="checkbox"/>
-						<input id="particleColorCheckbox" value="" type="checkbox"/>
+						<span id="particleColor-0" class="selectedParticleColor"> </span>
+						<span id="particleColor-1"> </span>
+						<span id="particleColor-2"> </span>
+						<span id="particleColor-3"> </span>
+					</div>
+					<div class = "colorOption">
+						<header class="colorHeader">Color</header>
+						<span class="colorRadioButtons">
+  							<input id="particleRGBColor" class="colorRadio" type="radio" name="particleColor" checked>
+  							<label for="particleRGBColor">RGB</label>
+  							<input id="particleHSLColor" class="colorRadio" type="radio" name="particleColor">
+  							<label for="particleHSLColor">HSL</label>
+  							<input id="particleHexColor" class="colorRadio" type="radio" name="particleColor">
+  							<label for="particleHexColor">Hex</label>
+  						</span>
+  						<div class="colorPicker" id="particleColorPicker" data-colorindex="0"></div>
+  						<span class="colorPreview"></span>
 					</div>
 					<header class="optionHeader">Adjustments</header>
 					<div id="maxParticles"> 
@@ -336,28 +352,6 @@
 					
 					</div>
 				</div>
-			</div>
-
-
-			<div id="dynamicBgSettings" class="visOption">
-				<span class="checkSwitch">
-					<input type="checkbox" id="dynamicBgCheckbox" /><label for="dynamicBgCheckbox"></label>
-				</span>
-				<span id="dynamicBgLabel" class="optLabel"> Dynamic Background </span>
-				<button type="button" class="expandButton"> <img src="media/settingsgearwhite.png" height=20 width=20 alt="Advanced Settings"></button>
-				<div id="dynamicBgAdvanced" class="advancedOptions slidehorizontal" >
-					<div class = "advancedOptionsWrapper">
-					<div id="dynamicBgType"> 
-						<header class="optionHeader">Type</header>
-						<input id="dynamicBgTypeGradient" name="dynamicBgType" type="radio" checked value="Gradient"/>
-						<label for="dynamicBgTypeGradient">Gradient</label>
-						<input id="dynamicBgTypeVideo" name="dynamicBgType" type="radio" value="Video"/>
-						<label for="dynamicBgTypeVideo">Video</label>
-						<input id="dynamicBgTypeSpectogram" name="dynamicBgType" type="radio" value="Spectogram"/>
-						<label for="dynamicBgTypeSpectogram">Spectogram</label>
-					</div>
-					</div>
-			    </div>
 			</div>
 
 			<div id="invertSetting" class="visOption">

@@ -4,28 +4,60 @@
 		"selected_items":
 		[
 			[
-				"hei",
-				"heightScale"
+				"midgrou",
+				"midgroundImageData"
 			],
 			[
-				"context",
-				"context"
+				"trai",
+				"trailEffect"
+			],
+			[
+				"midgr",
+				"midgroundImageData"
+			],
+			[
+				"avg",
+				"avgfreq"
+			],
+			[
+				"partic",
+				"particleSystems"
+			],
+			[
+				"i",
+				"i"
 			],
 			[
 				"prev",
-				"prevOffset"
+				"prevAvg1"
 			],
 			[
-				"of",
-				"offset"
+				"parti",
+				"particleSystems"
 			],
 			[
-				"reverse",
-				"reverseoffset"
+				"parit",
+				"particleSystems"
 			],
 			[
-				"slice",
-				"sliceWidth"
+				"part",
+				"particleSystems"
+			],
+			[
+				"create",
+				"createParticles"
+			],
+			[
+				"maxParticle",
+				"maxParticlesHasChanged"
+			],
+			[
+				"color",
+				"colorsHasChanged"
+			],
+			[
+				"cha",
+				"changeNumParticles"
 			],
 			[
 				"wa",
@@ -287,7 +319,7 @@
 			"file": "visualizer.html",
 			"settings":
 			{
-				"buffer_size": 15303,
+				"buffer_size": 14885,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -296,16 +328,7 @@
 			"file": "css/ui.css",
 			"settings":
 			{
-				"buffer_size": 8174,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/visualizermanager.js",
-			"settings":
-			{
-				"buffer_size": 18569,
+				"buffer_size": 8446,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -314,16 +337,33 @@
 			"file": "src/uimanager.js",
 			"settings":
 			{
-				"buffer_size": 26249,
+				"buffer_size": 26012,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/audiomanager.js",
+			"file": "src/visualizermanager.js",
 			"settings":
 			{
-				"buffer_size": 6646,
+				"buffer_size": 20170,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/workspace.js",
+			"settings":
+			{
+				"buffer_size": 2,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/utilities.js",
+			"settings":
+			{
+				"buffer_size": 1051,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -361,12 +401,15 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/user/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer",
-		"/C/Users/user/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/css",
-		"/C/Users/user/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src"
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/css",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src"
 	],
 	"file_history":
 	[
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/Boomshine-ICE-start/Boomshine-G/js/utilities.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/Boomshine-ICE-start/Boomshine-G/js/emitter.js",
+		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Exercises/emitter.js/__MACOSX/._emitter.js",
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/workspace.js",
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME320/sheepherd/app/sheep.js",
 		"/C/Users/Margaret/Google Drive/School/Classwork/Fall2017/IGME330/Audio Visualizer/src/utilities.js",
@@ -443,7 +486,7 @@
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 56.0
 	},
 	"find_in_files":
 	{
@@ -458,6 +501,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"dynamic",
+			"Preview",
+			"fillEllipse",
+			"console",
+			"system",
 			"optionHeader",
 			"visualization",
 			"consol",
@@ -485,6 +533,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"fillRoundedRect",
+			"particleSystems[i]",
 			"particlesystem",
 			"ProxyMemoryAllocator",
 			"uint",
@@ -502,7 +552,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -511,15 +561,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 15303,
+						"buffer_size": 14885,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9666,
-								9674
+								14268,
+								14268
 							]
 						],
 						"settings":
@@ -528,7 +578,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3383.0,
+						"translation.y": 9834.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -540,15 +590,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8174,
+						"buffer_size": 8446,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8170,
-								7345
+								4395,
+								4395
 							]
 						],
 						"settings":
@@ -558,7 +608,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 6699.0,
+						"translation.y": 5212.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
@@ -566,48 +616,19 @@
 				},
 				{
 					"buffer": 2,
-					"file": "src/visualizermanager.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 18569,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10289,
-								10289
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 4390.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
 					"file": "src/uimanager.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 26249,
+						"buffer_size": 26012,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								13441,
-								13441
+								0,
+								0
 							]
 						],
 						"settings":
@@ -616,27 +637,84 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 5715.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "src/audiomanager.js",
+					"buffer": 3,
+					"file": "src/visualizermanager.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6646,
+						"buffer_size": 20170,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1030,
-								1030
+								7961,
+								7961
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 1211.0,
+						"translation.y": 3849.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/workspace.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/utilities.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1051,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								783,
+								783
 							]
 						],
 						"settings":
@@ -645,10 +723,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 90.0,
+						"translation.y": 264.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -656,7 +734,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 23.0
+		"height": 30.0
 	},
 	"input":
 	{
@@ -693,7 +771,7 @@
 	"project": "audioviz.sublime-project",
 	"replace":
 	{
-		"height": 42.0
+		"height": 93.0
 	},
 	"save_all_on_build": true,
 	"select_file":

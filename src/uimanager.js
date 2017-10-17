@@ -1,6 +1,13 @@
 "use strict";
 var application = application || {};
 
+// ----------------------------------------------------------------------------
+//
+// This module handles the behavior of all UI elements, primarily through
+// event handling.
+//
+// ----------------------------------------------------------------------------
+
 application.ui = function(){
 	var obj = {};
 	var initialized = false;
@@ -10,6 +17,7 @@ application.ui = function(){
 		if(initialized)
 			return;
 
+		// the controls for track selection and audio playback
 		this.controls = {
 			element: document.querySelector("#controls"),
 			height: 60,
@@ -23,7 +31,7 @@ application.ui = function(){
 				mute: function(){
 					application.audio.setVolume(0);
 					this.slider.value = 0;
-					this.icon.innerHTML = '<img src="media/volumemutedwhite.png" height=20 width=20 alt="Volume">'; 
+					this.icon.querySelector('img').src = 'media/volumemutedwhite.png'; 
 					this.muted = true;
 				},
 				unmute: function(){
@@ -36,7 +44,7 @@ application.ui = function(){
 						this.slider.value = .2;
 						this.volume = .2;
 					}
-					this.icon.innerHTML = '<img src="media/volumeiconwhite.png" height=20 width=20 alt="Volume">'; 
+					this.icon.querySelector('img').src = 'media/volumeiconwhite.png';
 					this.muted = false;
 				},
 				muted: false,
@@ -48,14 +56,20 @@ application.ui = function(){
 			 	currentTrack: document.querySelector("#currentTrack"),
 			 	trackListVisible: false,
 			 	trackListHeight: 0,
+			 	// populate the custom tracklist selector with the available tracks
 			 	createSelectOptions: function (trackList){
+
 			 		var path = "tracks/";
-			 		var elements = [];
+			 		var tracks = getTracks();
+
+			 		// clear out the trackList (if we're dynamically changing it might be populated)
 			 		trackList.innerHTML = "";
 			 		for(var i = 0; i < tracks.length; i++){
+
 			 			var li = document.createElement("li");
-			 			li.innerHTML = tracks[i];
-			 		
+			 			li.innerText = tracks[i];
+
+			 			// selector behavior
 			 			li.addEventListener("click", function(e){ 
 			 				var streamPath = path + e.target.innerText + ".mp3";
 			 				application.audio.setStream(streamPath);
@@ -69,13 +83,13 @@ application.ui = function(){
 			 				slideDown(this.trackList);
 			 				this.trackListVisible = false;
 			 			}.bind(this));
-			 			elements[i] = li;
+
 			 			this.trackList.appendChild(li);
 			 		}
+			 		// prepping the tracklist for slide up/down
 			 		this.trackList.style.maxHeight = "none";
 			 		this.trackListHeight = this.trackList.offsetHeight;
 			 		this.trackList.style.maxHeight = "0";
-			 		return elements;
 
 			 	}
 			 },
@@ -83,14 +97,13 @@ application.ui = function(){
 			 optionsButton: document.querySelector('#showOptionsButton')
 		};
 		
-		// want the controls to be visible by default, so a user knows where they are
+		// want the controls to be visible by default, so a new user knows where they are
 		slideUp(this.controls.element, this.controls.height);
 		this.controls.element.style.overflow = "visible";
 
 		this.options = {
 			element: document.querySelector("#options"),
 			hidden: true,
-			width: 100,
 			equalizerSettings: {
 				element: document.querySelector("#equalizerSettings"),
 				settings: document.getElementsByClassName("eqControl"),
@@ -160,9 +173,6 @@ application.ui = function(){
 						case "eqbarSettings":
 							application.visualizer.visualization.eqBars.enabled = option.enabled;
 						break;
-						case "dynamicBgSettings":
-							application.visualizer.visualization.dynamicBG.enabled = option.enabled;
-						break;
 						case "invertSetting":
 							application.visualizer.visualization.invert = option.enabled;
 						break;
@@ -172,8 +182,59 @@ application.ui = function(){
 					}
 				},
 			},
-			resetButton: document.querySelector('#resetButton')
+			resetButton: document.querySelector('#resetButton'),
+			// used to initialize the app and to reset user settings 
+			// with the reset button
+			defaults:{
+				eqGain: 0,
+				eqPlaybackRate: 0,
+				eqBass: 0,
+				eqLow: 0,
+				eqMid: 0,
+				eqHigh: 0,
+				eqPresence: 0,
+				eqBrilliance: 0,
+				eqReverb: 0,
+				invert: false,
+				greyscale:false,
+				bezierDefaults:{
+					enabled: false,
+					color: "",
+					maxCurveHeight: 0,
+					controlPointOffset:0,
+					trailsEnabled: false
+				},
+				eqBarDefaults:{
+					enabled: false,
+					color: "",
+					appearance: "",
+					location: "",
+					height: 0
+				},
+				particleDefaults:{
+					enabled:false,
+					colors: [],
+					maxParticles: 0,
+					particlesLifetime:0
+				},
+				wlineDefaults:{
+					enabled: false,
+					color: "",
+					location: "",
+					scale: 0
+				}
+			},
+			setDefaults: function(){
+				// I am certain there's a more satisfying way than hard coding
+				// all of this, but there's a finite amount of time I can spend
+				// on this project and I have the benefit of knowing what I'm working with
+
+
+			},
 		};
+
+		// we will not (and should not) mess with these
+		Object.freeze(this.options.defaults);
 
 
 		// set up event listeners
@@ -181,11 +242,12 @@ application.ui = function(){
 
 			// window resizing
    			window.addEventListener('resize', function() {
-        		if(application.visualizer && application.visualizer.isInitialized())
-        			application.visualizer.resizeCanvas(window.innerWidth, window.innerHeight);
+        		application.visualizer.resizeCanvas(window.innerWidth, window.innerHeight);
     		}, true);
 
    			// handling the sensor for the controls
+   			// if the controls are unpinned and hidden, mousing over the
+   			// area where they should be will slide them up
     		this.controls.sensor.addEventListener("mouseenter", function(){
 
     			if(this.controls.hidden){
@@ -204,28 +266,32 @@ application.ui = function(){
     		}.bind(this));
 
     		// handling the play/pause button
+    		// it behaves how you'd expect..
     		this.controls.playButton.addEventListener("click", function(){
-    			if(application.audio && application.audio.isInitialized())
-    			{
     				if(application.audio.isPlaying()){
     					application.audio.pause();
-    					// Shouldn't hard code this HTML, TODO clean this up
-    					this.playButton.innerHTML = '<img src="media/playcirclewhite.png" height=30 width=30 alt="Play">';
+    					// Toggle icon and alt (for screen readers and server SNAFU)
+    					this.playButton.querySelector('img').src = 'media/playcirclewhite.png';
+    					this.playButton.querySelector('img').alt = 'Play';
     				}
     				else{
     					application.audio.play();
-    					this.playButton.innerHTML = '<img src="media/pausecirclewhite.png" height=30 width=30 alt="Pause">'; 
+    					this.playButton.querySelector('img').src = 'media/pausecirclewhite.png';
+    					this.playButton.querySelector('img').alt = 'Pause'; 
     				}
-    			}
 			}.bind(this.controls));
 
 			// volume controls
+			// you know this whole comment per function thing gets really old
 			this.controls.volumeControl.slider.onchange = function(e){
-			 	if(application.audio && application.audio.isInitialized())
-			 		application.audio.setVolume(e.target.value);
+			 	application.audio.setVolume(e.target.value);
 
+			 	// cache the volume so we can handle muting and unmuting
+			 	// also, what's the harm in having 3 separate, uncoordinated
+			 	// locations for the same data? NOTHING COULD GO WRONG
 			 	this.volume = e.target.value;
-			 	// if we're muted and they move the slider, we unmute
+
+			 	// if we're muted and they've moved the slider off 0, we unmute
 			 	if(this.muted && e.target.value != 0){
 			 		this.unmute();
 			 	}
@@ -238,6 +304,8 @@ application.ui = function(){
 
 			 // double click the volume icon to mute/unmute
 			 // volume from pre-mute is cached for unmute
+			 // (I'm really glad there's a dblclick event, I was expecting to have 
+			 // to do something absolutely horrifying with system time)
 			this.controls.volumeControl.icon.ondblclick= function(e){
 				if(this.muted){
 					this.unmute();
@@ -248,10 +316,12 @@ application.ui = function(){
 
 			}.bind(this.controls.volumeControl)
 
-			 // track selector
-			 //populate internal ul with tracks
+			 // track selector 
+
+			 // populate internal ul with tracks
 			 this.controls.trackSelector.createSelectOptions(this.controls.trackSelector.trackList);
 
+			 // show/hide the tracklist when you click on the track
 			 document.querySelector("#trackSelect").onclick = function(e){
 			 	if(this.trackSelector.trackListVisible){
 			 		this.trackSelector.trackSelect.style.backgroundColor = "#f2e8e8";
@@ -270,18 +340,30 @@ application.ui = function(){
 
 
 			// hide button
+			// slightly oddly named, but it toggles the playback controls being pinned/unpinned,
+			// if unpinned, when the user stops messing with them they hide themselves
+			// if pinned they hang around like a bad cold at the bottom of the page
 			this.controls.hideButton.onclick = function(e){
-				// TODO : Fix this ugly hard-coded HTML as well
 				if(this.hidden){
 					this.hidden = false;
-					this.hideButton.innerHTML = '<img src="media/unpinwhite.png" height=30 width=30 alt="Unpin Controls">';
+					this.hideButton.querySelector('img').src = 'media/unpinwhite.png';
+					this.hideButton.querySelector('img').alt = "Unpin Controls"
 				}
 				else{
 					this.hidden = true;
-					this.hideButton.innerHTML = '<img src="media/pinwhite.png" height=30 width=30 alt="Pin Controls">';
+					this.hideButton.querySelector('img').src = "media/pinwhite.png";
+					this.hideButton.querySelector('img').alt = "Pin Controls";
 				}
 			}.bind(this.controls);
 
+
+			// shows/hides the options sidebar
+			// DO YOU GET IT IT'S A HAMBURGER MENU
+			// A MENU
+			// THAT'S ALSO A HAMBURGER
+			// HA
+			// HAHA
+			// Why are you making me comment all these event handlers
 			this.controls.optionsButton.onclick = function(){
 				if(this.options.hidden){
 					slideUp(this.options.element, window.innerHeight);
@@ -296,6 +378,9 @@ application.ui = function(){
 
 			// equalizer settings
 
+			// all of the behavior for the equalizer sliders
+			// is consolidated here, so it's easy to add/remove them
+			// as I slowly realize how out of scope this project is
 			function setEqSetting(){
 				var equalizer = application.audio.equalizer;
 				switch(this.id){
@@ -317,6 +402,7 @@ application.ui = function(){
 				}
 			}
 
+			// add event listeners to all the equalizer sliders
 			for(var i = 0; i < this.options.equalizerSettings.settings.length; i++){
 				var setting =this.options.equalizerSettings.settings[i];
 
@@ -327,9 +413,14 @@ application.ui = function(){
 				input.addEventListener("input", setEqSetting);
 			}
 
+
 			// visualization settings
 
 			var visualizationSettings = this.options.visualizationSettings;
+
+			// set up enable/disable and advanced option panel expansion (when appropriate)
+			// for all the visualization options
+			// again, doing it like this makes it much easier to add/remove options cleanly
 			for(var i = 0; i < this.options.visualizationSettings.settings.length; i++){
 				var option = visualizationSettings.settings[i];
 				if(option.expandButton){
@@ -348,12 +439,15 @@ application.ui = function(){
 
 			}
 
-			// visualization  advanced options
+			// visualization advanced options
 
-			// everything except for color
+			// event listeners for everything except for color 
+			// (WE DON'T TALK ABOUT COLOR OKAY)
 			var visualizationAdvancedOptions = visualizationSettings.element.querySelectorAll(".advancedOptions");
 			var advancedOptionInputs = [];
 
+			// make one giant array of all the inputs from all advanced option sections
+			// the first of many shameless abuses of the array prototype functions 
 			for(var i = 0; i < visualizationAdvancedOptions.length; i++)
 				Array.prototype.push.apply(advancedOptionInputs,visualizationAdvancedOptions[i].querySelectorAll('input'));
 
@@ -362,6 +456,12 @@ application.ui = function(){
 				input.addEventListener("input", setAdvancedOptions);
 			}); 
 
+			// one more for particle color
+			document.querySelector("#particleColors").querySelectorAll('span').forEach(function(colorbox){
+				colorbox.addEventListener("click", setAdvancedOptions)});
+
+			// hideous, giant switch statement to make a one stop shop for
+			// advanced options (makes it easier to find where this stuff happens)
 			function setAdvancedOptions(){
 				
 				// I must have been a real jerk in a past life
@@ -387,7 +487,11 @@ application.ui = function(){
 					break;
 
 					case "particleColors":
-						// no fucking clue
+						document.querySelector("#particleColorPicker").dataset.colorindex = this.id.split("-").pop();
+						this.parentElement.querySelectorAll('span').forEach(function(s){
+							s.className = "";
+						});
+						this.className = "selectedParticleColor";
 					break;
 
 					case "wlineScale":
@@ -395,7 +499,6 @@ application.ui = function(){
 					break;
 
 					case "wlineLocation":
-						console.log(this.value);
 						application.visualizer.visualization.waveformLines.location = this.value;
 					break;
 
@@ -411,16 +514,19 @@ application.ui = function(){
 						application.visualizer.visualization.eqBars.location = this.value;
 					break;
 
-					case "dynamicBgType":
-						application.visualizer.visualization.dynamicBG.type = this.value;
-					break;
-
 				}
 
 
 			}
 
 			// color selectors.. what drove me to this?
+			// at what point during the fever dream of this semester did I say
+			// yes, a custom color widget is core functionality and is worth it
+			// also, let's do all 3 major color schemes because that is totally reasonable
+			// and I really want to figure out how to translate between them
+
+			// can we just forget this happened?
+
 			var colorOptions = document.querySelectorAll(".colorOption");
 
 			function setColorOption(){
@@ -439,6 +545,12 @@ application.ui = function(){
 				function makeHSLColor(h,s,l){
 					return "hsl(" + h +"," + s + "%," + l + "%)";
 				}
+
+				// edits the string in the input box, so the user will always
+				// have a single # prepended (even if they type it)
+				// and will be limited to 7 characters total
+				// accepts both short and long form hex colors
+				// BECAUSE WHY NOT, WHY NOT
 				function validateHexColor(hex){
 					var valid = true;
 
@@ -462,8 +574,9 @@ application.ui = function(){
 					// check for valid alpha-numeric values
 					for(var i = 1; i < hex.length; i++){
 						// could easily make this one if statement, but 
-						// the compiler will do that for us and this is more
-						// readable
+						// the compiler (assuming it is not trashy, I know nothing about js compilers but I assume they've caught up to C99 compiler optimizations..)
+						// will do that for us and this is more readable
+						
 						if(hex[i] < '0')
 							valid = false;
 						else if(hex[i] > '9' && hex[i] < 'A')
@@ -478,6 +591,7 @@ application.ui = function(){
 				}
 
 				var result = "black"; // default to black if we have nonsense
+									  // emulating CSS behavior, because if there's one thing I've learned, it's that CSS is the gold standard for best practices
 				switch(parent.classList[0]){
 					case "rgbSlider": 
 						var red = colorPicker.querySelector('input[name="red"]').value;
@@ -496,10 +610,11 @@ application.ui = function(){
 					break;
 
 					case "hexTextBox":
-						result = validateHexColor(this.value);
-						this.value = result.string;
-						if(result.valid){
+						var hexresult = validateHexColor(this.value);
+						this.value = hexresult.string;
+						if(hexresult.valid){
 							preview.style.backgroundColor = result.string;
+							result = hexresult.string;
 						}
 					break;
 				}
@@ -517,7 +632,16 @@ application.ui = function(){
 					case "eqbarColorPicker":
 						application.visualizer.visualization.eqBars.color = result;
 					break;
+
+					case "particleColorPicker":
+						var rgb = parseToRGBValues(result);
+						var index = colorPicker.dataset.colorindex;
+						application.visualizer.visualization.particles.colors[index] = rgb;
+						document.querySelector("#particleColor-" + index).style.backgroundColor = result;
+					break;
 				}
+
+
 
 			}
 
@@ -526,6 +650,9 @@ application.ui = function(){
 			// easier to just replace the innerHTML rather than trying to cache the
 			// previous value for EVERY color radio button on the page somewhere so we can collapse
 			// one element and expand another
+
+			// I could have just hard coded the HTML, but this made my soul hurt a little less
+			// For absolutely no raisins.
 
 			// This is the HTML that the following IIFE builds
 					// <span class="rgbPicker">\
@@ -641,6 +768,11 @@ application.ui = function(){
 				var div1 = document.createElement('div');
 				div1.classList.add("hslSlider");
 
+				// special snowflake hsl and its special snowflake slider ranges,
+				// making me have two different sets
+				// I mean 'making me' is strong, I could have just changed the ranges and values dynamically
+				// but you know what? Shut up. I don't *need* this right now.
+				// One of these days, I swear..
 				var hslider = document.createElement('input');
 				hslider.id = "HSlider";
 				hslider.classList.add("slider");
@@ -740,7 +872,8 @@ application.ui = function(){
   			}();
 
 
-
+  			// event handling for the color widget radio buttons
+  			// populates the widget sliders in response to being checked
 			for(var i = 0; i < colorOptions.length; i++){
 				var radioButtons = colorOptions[i].querySelectorAll("input[type='radio']");
 
@@ -769,20 +902,14 @@ application.ui = function(){
 				});
 
 				// make rgb picker default
-				// (I am cheating a little here)
+				// (I am cheating a little here, I guess, but it's easier than making a legitimate event object)
 				var event = {target: radioButtons[0]};
 				radioButtons[0].onchange(event);
 			}
-
-			
-
-
-
     	}
 		else {
     		// The browser does not support Javascript event binding, or is IE pre-9. . .
-    		// TODO: Error screen?
-    		console.log("browser does not support addEventListener");
+    		browserRagequit();
 		}
 
 		// prevent the ui from being extended accidentally after initialization
@@ -790,6 +917,9 @@ application.ui = function(){
 		initialized = true;
 	};
 
+	obj.isInitialized = function(){
+		return initialized;
+	};
 	obj.hideControls = function(){
 		this.controls.hidden = true;
 	};
@@ -807,8 +937,8 @@ application.ui = function(){
 	return obj;
 }();
 
-// helpers
 
+// UI HELPERS
 
 // jQuery-like sliding (adapted from https://gist.github.com/ludder/4226288)
 // Up is visible, down is invisible
@@ -840,16 +970,4 @@ function slideLeft(elem){
 	once( 1, function () {
 		elem.style.opacity = '0';
 	});
-}
-
-// simple timeout for reducing opacity after a slide down/left
-function once (seconds, callback) {
-	var counter = 0;
-	var time = window.setInterval( function () {
-		counter++;
-		if ( counter >= seconds ) {
-			callback();
-			window.clearInterval( time );
-		}
-	}, 400 );
 }

@@ -84,6 +84,7 @@ body {
   font-size: .7em;
   background-color:#333333;
   border-radius: 5px 5px 0px 0px;
+  z-index:-1;
 }
 
 #trackList li {
@@ -117,7 +118,6 @@ body {
   width:100%;
   top:15px;
   background-color:#333333;
-  z-index: -1;
 }
 
 #bottomsensor{
@@ -332,6 +332,27 @@ padding:0;
 #bezierTrailEffect span{
   top: 8px;
 }
+
+#particleColors span{
+  display:inline-block;
+  height:50px;
+  width:50px;
+  background-color: black;
+  border-width: 2px;
+  border-style:solid;
+  border-color:black;
+
+}
+
+#particleAdvanced .colorPreview{
+  display:none;
+}
+
+#particleColors .selectedParticleColor{
+  border-color:red;
+  border-style:dashed;
+}
+
 .advancedOptions label{
   font-size:.7em;
 }

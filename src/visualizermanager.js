@@ -1,9 +1,16 @@
 "use strict";
 var application = application || {};
 
+// ----------------------------------------------------------------------------
+//
+// This module handles canvas rendering of the audio visualization,
+// based on data from the audio module
+//
+// ----------------------------------------------------------------------------
+
 application.visualizer = function(){
 	var obj = {};
-	var initialized = false;
+	var initialized = false; // prevents reinitialization, verifies success
 	var canvas, midground, foreground, background;
 	var ctx;
 	obj.initializeVisualizer = function(){
@@ -12,10 +19,12 @@ application.visualizer = function(){
 			return;
 
 		// set up canvas stuff
+		// There are multiple canvases, to allow for distinct layers independent of draw order
+		// (different settings require visualizations to be drawn at different depths, and this allows for that)
 		canvas = document.querySelector("#mainCanvas");
 		ctx = canvas.getContext("2d");
 
-		// // topmost layer, for overlays
+		// topmost layer, for overlays
 		foreground ={};
 		foreground.canvas = document.querySelector("#foregroundCanvas");
 		foreground.ctx = foreground.canvas.getContext('2d');
@@ -30,6 +39,7 @@ application.visualizer = function(){
 		midground.canvas = document.querySelector("#midgroundCanvas");
 		midground.ctx = midground.canvas.getContext('2d');
 
+		// used for window resizing and initialization
 		this.resizeCanvas = function(width,height){
 			canvas.width = width;
 			canvas.height = height;
@@ -46,6 +56,8 @@ application.visualizer = function(){
 
 		// visualization components
 		this.visualization = {
+			// quadratic bezier curves with control points based on frequency data
+			// there is 1 curve per frequency bucket, with height determined by the value of that frequency
 			bezierCurves:{
 				draw: function(frequencyData){
 					if(!this.enabled)
@@ -56,7 +68,6 @@ application.visualizer = function(){
 						var scale = frequencyData[i]/255.0;
 
 						// draw quadratic bezier curves
-						// possible options - max curve height,control point offset (horizontal), visible, color
 						drawQuadCurve(ctx, -canvas.width/2, canvas.height/2, canvas.width/4+ this.controlPointOffset, 
 									canvas.height/2 + scale*this.maxCurveHeight, canvas.width/2, canvas.height/2, this.color, false);
 						drawQuadCurve(ctx, -canvas.width/2, canvas.height/2, canvas.width/4+ this.controlPointOffset, 
@@ -67,7 +78,7 @@ application.visualizer = function(){
 									canvas.height/2 - scale*this.maxCurveHeight, 3*canvas.width/2, canvas.height/2, this.color, false);
 
 						if(this.trailEffect){
-							//console.log('drawing trails');
+							midground.ctx.save();
 							midground.ctx.lineWidth = 100;
 							drawQuadCurve(midground.ctx, -canvas.width/2, canvas.height/2, canvas.width/4+ this.controlPointOffset, 
 									canvas.height/2 + scale*this.maxCurveHeight, canvas.width/2, canvas.height/2, this.color, false);
@@ -77,6 +88,7 @@ application.visualizer = function(){
 									canvas.height/2 + scale*this.maxCurveHeight, 3*canvas.width/2, canvas.height/2, this.color, false);
 							drawQuadCurve(midground.ctx, canvas.width/2, canvas.height/2, 3*canvas.width/4- this.controlPointOffset, 
 									canvas.height/2 - scale*this.maxCurveHeight, 3*canvas.width/2, canvas.height/2, this.color, false);
+							midground.ctx.restore();
 						}
 					}
 					ctx.restore();
@@ -88,22 +100,36 @@ application.visualizer = function(){
 				trailEffect: true,
 				enabled: false,
 			},
+			// particle effect that fires when there is a significant change in certain
+			// frequency ranges, with a different color for each range
+			// see the particle system object at the bottom of this file
 			particles:{
 				draw: function(frequencyData){
 					if(!this.enabled)
 						return;
+
+					// TODO: make ranges an array
+					//get our ranges
 					var r1 = frequencyData.slice(0, 31);
 					var r2 = frequencyData.slice(31, 81);
 					var r3 = frequencyData.slice(100, 121);
 					var newAvg1= avgArrayValue(r1);
 					var newAvg2= avgArrayValue(r2);
 					var newAvg3= avgArrayValue(r3);
-					var commonfrequences = frequencyData.slice(0, 121);
-					var avgfreq= avgArrayValue(commonfrequences);
+
+					// average frequency across all that are in an "active range" 
+					// (there are a large amount of zeroes in the upper frequencies that will skew an average down)
+
+					// the [].slice.call() is to get an array from UintArray8 or whatever it's called
+					// honestly the most attractive, readable thing I've ever written
+					var commonfrequencies = [].slice.call(frequencyData);
+					commonfrequencies = trimTrailingZeroes(commonfrequencies);
+					var avgfreq= avgArrayValue(commonfrequencies);
 
 					var newAvg = Math.max(newAvg1, newAvg2, newAvg3);
 					var diff, color;
 
+					// choose our color and calculate the delta
 					if(newAvg === newAvg1){
 						diff = newAvg1 - this.prevAvg1;
 						color = this.colors[0];
@@ -114,12 +140,17 @@ application.visualizer = function(){
 						diff = newAvg3 - this.prevAvg3;
 						color = this.colors[2];
 					}
-					//console.dir(frequencyData);
-					//console.log(newAvg + " " + diff);
+					
+					// compare the intensity to the average of the track, so that particles still fire even for
+					// relatively soft sounds.
+					// a change of >= 5 indicates a significant event in that frequency range, usually (usually changes are between -1 and 1)
+					// and requiring it to be positive means that we fire on suddenly becoming louder, not quieter
 					if(diff >= 5 && (newAvg > avgfreq + 50 || newAvg > 100)){
 						let i = 0;
+
 						for(; i < this.particleSystems.length; i++){
 
+							// if we have a pre-existing dead particle system, we recycle it
 							if(this.particleSystems[i].dead){
 								this.particleSystems[i].createParticles({x: canvas.width/2, y: canvas.height/2});
 								// set color here
@@ -131,6 +162,9 @@ application.visualizer = function(){
 								break;
 							}
 						}
+
+						// if we didn't break out of the loop, and we can afford to have more particles on the screen, or there are no particle systems yet
+						// we make a new particle system to fire
 						if(this.particleSystems.length*this.maxParticles < 2500 && (i >= this.particleSystems.length || this.particleSystems.length == 0)){ // we didn't find a dead one
 							var ps = new particlesystem();
 
@@ -144,9 +178,12 @@ application.visualizer = function(){
 						}
 
 					}
+					// update averages for comparison
 					this.prevAvg1 = newAvg1;
 					this.prevAvg2 = newAvg2;
 					this.prevAvg3 = newAvg3;
+
+					// draw all our particles
 					this.particleSystems.forEach(function(ps){
 						ps.update({x: canvas.width/2, y: canvas.height/2});
 						ps.draw(ctx);
@@ -163,19 +200,24 @@ application.visualizer = function(){
 				prevAvg2: 0,
 				prevAvg3: 0,
 			},
+			// draws either a line or shapes with borders defined by a line determined by waveform data
+			// think oscilloscope
 			waveformLines:{
 				draw: function(waveformData){
-					foreground.ctx.clearRect(0,0, foreground.canvas.width, foreground.canvas.height);
 					if(!this.enabled)
 						return;
 
 					var x,y;
 					var offset, reverseoffset, angleStep, theta, radius;
+					// concatenating with its reverse ensures that it loops/repeats smoothly
+					// because the circumferences of the circles/width of the screen are so large in comparison to the
+					// size of the waveform data, we repeat the data to fill the space while keeping fine enough detail
+					// to be aesthetically pleasing
 					offset = [];
 					reverseoffset = [];
 					for (var i = 0; i < waveformData.length; i++){
 								
-						// average with previous data to smooth the value
+						// average with previous data to smooth the value and make the line less jumpy and fragmented
 						offset[i] = ((waveformData[i]/128.0 - 1) + this.prevOffset[i])/2;
 					}
 
@@ -183,7 +225,7 @@ application.visualizer = function(){
 					reverseoffset = offset.slice().reverse();
 					offset=offset.concat(reverseoffset);
 					switch(this.location){
-						case "Background":
+						case "Background": // segment of a sine curve (to make it larger in the middle) across the horizontal midline
 							background.ctx.save();
 							background.ctx.fillStyle = this.color;
 							background.ctx.beginPath();
@@ -211,12 +253,15 @@ application.visualizer = function(){
 							background.ctx.fill();
 							background.ctx.restore();
 						break;
-						case "Center":
+						case "Center": // filled circle surrounding the center circles
 							ctx.save();
 							angleStep = Math.PI/offset.length;
 							theta = 0;
 							radius = 250;
-							ctx.fillStyle = this.color;
+							var grd = background.ctx.createRadialGradient(background.canvas.width/2, background.canvas.height/2, 100, background.canvas.width/2, background.canvas.height/2, 300);
+							grd.addColorStop(0, "black");
+							grd.addColorStop(1, this.color);
+							ctx.fillStyle = grd;
 							ctx.beginPath();
 							for(var i = 0; i < offset.length; i++){
 								x = canvas.width/2+Math.cos(theta)*(radius + offset[i]*this.scale);
@@ -239,7 +284,7 @@ application.visualizer = function(){
 							ctx.fill();
 							ctx.restore();
 						break;
-						case "Overlay":
+						case "Overlay": // line circle overlaying the center circles, kind of a speaker effect?
 							foreground.ctx.save();
 							// wiggly circle thing
 							angleStep = Math.PI/offset.length;
@@ -274,12 +319,14 @@ application.visualizer = function(){
 
 				},
 				enabled:false,
-				scale: 300,
+				scale: 300, // factor for the waveform data - it doesn't make it signifiantly bigger, mostly just amplifies behavior
 				location: "Background", // Center (wrapped around circle), Background, Overlay
 				color: "blue",
-				prevOffset: new Array(128).fill(0),
+				prevOffset: new Array(128).fill(0), // fill the array with 0s for first comparison
 
 			},
+			// frequency bars, called EQ bars because it's the kind of thing you'd see in an equalizer I guess, and it sounds
+			// cooler than frequency bars
 			eqBars:{
 				draw: function(frequencyData){
 					if(!this.enabled)
@@ -288,6 +335,7 @@ application.visualizer = function(){
 					var barWidth;
 					var barSpacing;
 
+					// wrapped around the center circle
 					if(this.location === "Center"){ // hoo boy
 						var radius = 250;
 						var cyclicArray = [].slice.call(frequencyData);
@@ -301,16 +349,19 @@ application.visualizer = function(){
 						}
 						ctx.restore();
 					}
+
+					// centered on the horizontal midline as a background graphic (mirrored vertically and horizontally for visual effect)
 					else if(this.location === "Background"){
 						background.ctx.save();
 						background.ctx.fillStyle = this.color;
 						var verticalSpacing = canvas.height/2 - this.height;
+
+						// take only the first half (the most used) so we can mirror it horizontally for symmetry
 						var truncatedArray = [].slice.call(frequencyData);
 						truncatedArray.length = frequencyData.length/2;
 
 						barWidth = canvas.width/truncatedArray.length;
 						barSpacing = 1;	
-						//console.log(barWidth);		
 						for(var i = 0; i < truncatedArray.length; i++){
 							var heightScale = truncatedArray[i]/255.0;
 							switch(this.appearance){
@@ -342,6 +393,8 @@ application.visualizer = function(){
 
 						for(var i=0; i<frequencyData.length; i++) { 
 							var heightScale = frequencyData[i]/255.0;
+
+							// need to draw top to bottom still, so we move our top in reaction to the height of each bar
 							if(this.location === "Bottom"){
 								y = canvas.height - this.height*heightScale;
 							}
@@ -363,6 +416,8 @@ application.visualizer = function(){
 							ctx.restore();		
 					}
 
+					// essentially a draw rect with a border radius
+					// I could have used arcTo instead of quadraticCurveTo, but.. meh?
 					function fillRoundedRect(x, y, width, height, ctx) {
 						if(height === 0 || width === 0)
 							return;    					
@@ -390,44 +445,14 @@ application.visualizer = function(){
 				color: "black",
 
 			},
-			dynamicBG:{
-				draw: function(frequencyData){
-					background.ctx.clearRect(0,0,background.canvas.width, background.canvas.height);
-					if(!this.enabled)
-						return;
-
-					switch(this.type)
-					{
-						case "Gradient":
-
-							break;
-						case "Video":
-
-							break;
-						case "Spectogram":
-							// var spectOffset = 0;
-							// var slice = ctx.getImageData(0,spectOffset, canvas.width, 1);
-							// for(var i = 0; i < frequencyData.length; i++)
-							// {
-							// 	slice.data[4* i+0] = frequencyData[i]; // R
-							// 	slice.data[4 * i + 1] = frequencyData[i] // G
-    			// 				slice.data[4 * i + 2] = frequencyData[i] // B
-    			// 				slice.data[4 * i + 3] = 255         // A
-							// }
-							// ctx.putImageData(slice, 0, spectOffset);
-							// spectOffset++;
-							// spectOffset%= canvas.height;
-							break;
-					}
-				},
-				enabled:false,
-				type: "Spectogram", // Gradient, Video, Spectogram
-			},
-
+			
 			// post processing effects
 			invert: false,
 			greyscale: false,
-			//lyrics : false, // stretch goal.. 
+			//lyrics : false, // stretch goal.
+
+			// draws all the postprocessing effects that impact all canvases
+			// this is where the 4 canvases starts to really hurt, so we do some checking to see if we need to 
 			postprocess: function(){
 				var mainImageData = ctx.getImageData(0,0,canvas.width,canvas.height);
 				var midgroundImageData = midground.ctx.getImageData(0,0,canvas.width,canvas.height);
@@ -435,6 +460,10 @@ application.visualizer = function(){
 				var data = mainImageData.data;
 				var middata = midgroundImageData.data;
 				for(var i = 0; i < data.length; i+=4){
+
+					// these are pretty straightforward, but the greyscale code creates a single aggregate value
+					// to set r,g,b to to form a corresponding shade of grey
+					// and invert flips r,g,b within the [0,255] range
 					if(this.greyscale){
 						var value = data[i]*0.2989 + data[i+1]*.970 + data[i+2]*0.1140;
 						data[i] = data[i+1] = data[i+2] = data[i+3] = value;
@@ -468,37 +497,36 @@ application.visualizer = function(){
 		initialized = true;
 
 	};
+
 	obj.isInitialized = function(){
 		return initialized;
 	};
 
+	// main rendering update
 	obj.update = function(){
-
-		if(!application.audio.isInitialized())
-			return;
 
 		var frequencyData = application.audio.getFrequencyData();
 		var waveformData = application.audio.getWaveformData();
 
-		//console.log("max: " + maxArrayValue(frequencyData) + " min: " + minArrayValue(frequencyData) + " avg: " + avgArrayValue(frequencyData));
-
-		// clear the screen for drawing
+		// clear the canvases for drawing
+		// the midground canvas fades slowly instead of clearing
 		ctx.clearRect(0,0,canvas.width,canvas.width);
+		background.ctx.clearRect(0,0,background.canvas.width, background.canvas.height);
+		foreground.ctx.clearRect(0,0,background.canvas.width, background.canvas.height);
 		var middata = midground.ctx.getImageData(0,0, midground.canvas.width, midground.canvas.height);
-		//console.log(middata);
 		for(var i = 3; i < middata.data.length; i+=4){
 			middata.data[i] *= .8;
-			//console.log(middata.data[i]);
 		}
-		//console.dir(middata);
 		midground.ctx.putImageData(middata, 0, 0);
 
-		this.visualization.dynamicBG.draw(frequencyData);
+
+		// draw our visualizations
 		this.visualization.particles.draw(frequencyData);
 		this.visualization.bezierCurves.draw(frequencyData);
 		this.visualization.waveformLines.draw(waveformData);
 		this.visualization.eqBars.draw(frequencyData);
 
+		// center frequency circles
 		for(var i = 0; i < frequencyData.length; i++){
 			var scale = frequencyData[i]/255.0;
 			//draw center circles
@@ -509,13 +537,15 @@ application.visualizer = function(){
 			ctx.closePath();
 
 		}
-		//draw top circle
+		
+		// top circle that always remains
 		ctx.beginPath();
 		ctx.fillStyle = "black";
 		ctx.arc(canvas.width/2, canvas.height/2, 50, 0, 2*Math.PI, false);
 		ctx.fill();
 		ctx.closePath();
 
+		// postprocessing
 		this.visualization.postprocess();
 	};
 
@@ -538,7 +568,7 @@ application.visualizer = function(){
 	}
 
 	// particle system constructor & such
-	// adapted from the particle system from boomshine
+	// adapted from the particle system from boomshine, sort of?
 
 	var particlesystem = (function(){
 
@@ -557,7 +587,8 @@ application.visualizer = function(){
 			this.red = 0;
 			this.green = 0;
 			this.blue =255;
-			this.dead = false;
+			this.dead = false; 	// if all of our particles have reached the end of their lifetime
+								// this system can safely be recycled or destroyed
 
 			this.particles = undefined;
 
@@ -580,9 +611,7 @@ application.visualizer = function(){
 			if(this.dead)
 				return;
 			var dead = true;
-			// this.particles is undefined?
-			// console.dir(this.particles);
-			// debugger;
+		
 			this.particles.forEach(function(p){
 				p.age += this.decayRate;
 				p.r += this.expansionRate;
@@ -597,6 +626,7 @@ application.visualizer = function(){
 
 			if(dead){
 				this.dead = true;
+				// kill our particles, we don't need 'em where we're going..
 				this.particles = [];
 			}					
 		};

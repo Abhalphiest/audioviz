@@ -34,7 +34,7 @@ application.audio = function(){
 		// default starting value
 		this.audioElement.volume = document.querySelector("#volumeSlider").value;
 
-		// TODO: Implement
+		// TODO: Debug
 		this.equalizer = function(){
 			var equalizer = {};
 			var gain = 1, playbackRate = 1, 
