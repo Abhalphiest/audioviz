@@ -301,8 +301,8 @@ application.visualizer = function(){
 								break;
 
 								case "Rounded" :
-									fillEllipse(background.canvas.width/2 + i*(barWidth + barSpacing), verticalSpacing + this.height - this.height*heightScale, barWidth, 2*this.height*heightScale, background.ctx);
-									fillEllipse(background.canvas.width/2 - i*(barWidth + barSpacing), verticalSpacing + this.height - this.height*heightScale, barWidth, 2*this.height*heightScale, background.ctx); 
+									fillRoundedRect(background.canvas.width/2 + i*(barWidth + barSpacing), verticalSpacing + this.height - this.height*heightScale, barWidth, 2*this.height*heightScale, background.ctx);
+									fillRoundedRect(background.canvas.width/2 - i*(barWidth + barSpacing), verticalSpacing + this.height - this.height*heightScale, barWidth, 2*this.height*heightScale, background.ctx); 
 								break;
 
 								case "Line":
@@ -333,7 +333,7 @@ application.visualizer = function(){
 								break;
 
 								case "Rounded" :
-									fillEllipse(i*(barWidth + barSpacing), y, barWidth, this.height*heightScale, ctx); 
+									fillRoundedRect(i*(barWidth + barSpacing), y, barWidth, this.height*heightScale, ctx); 
 								break;
 
 								case "Line":
@@ -344,18 +344,30 @@ application.visualizer = function(){
 							ctx.restore();		
 					}
 
-					function fillEllipse(x,y,width,height, context){
-						context.beginPath();
-						context.ellipse(x+width/2,y+height/2,width,height,0, 0, Math.PI*2, false);
-						context.fill();
-						context.closePath();
-					}			
+					function fillRoundedRect(x, y, width, height, ctx) {
+						if(height === 0 || width === 0)
+							return;    					
+    					var radius = 5;
+
+  						ctx.beginPath();
+  						ctx.moveTo(x + radius, y);
+  						ctx.lineTo(x + width - radius, y);
+  						ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  						ctx.lineTo(x + width, y + height - radius);
+  						ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  						ctx.lineTo(x + radius, y + height);
+  						ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  						ctx.lineTo(x, y + radius);
+  						ctx.quadraticCurveTo(x, y, x + radius, y);
+  						ctx.closePath();
+  						ctx.fill();
+					}		
 
 				},
 				enabled:true,
 				location: "Background", // Center (wrapped around circle), Bottom, Top, Background
 				height: 300,
-				appearance: "Rectangular", // Rectangular, Rounded, Line
+				appearance: "Rounded", // Rectangular, Rounded, Line
 				color: "black",
 
 			},
