@@ -186,42 +186,44 @@ application.ui = function(){
 			// used to initialize the app and to reset user settings 
 			// with the reset button
 			defaults:{
-				eqGain: 0,
-				eqPlaybackRate: 0,
+				eqGain: 1,
 				eqBass: 0,
 				eqLow: 0,
 				eqMid: 0,
 				eqHigh: 0,
 				eqPresence: 0,
 				eqBrilliance: 0,
-				eqReverb: 0,
+
 				invert: false,
 				greyscale:false,
 				bezierDefaults:{
 					enabled: false,
-					color: "",
-					maxCurveHeight: 0,
-					controlPointOffset:0,
+					color: {rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"},
+					maxCurveHeight: 1000,
+					controlPointOffset: 1000,
 					trailsEnabled: false
 				},
 				eqBarDefaults:{
 					enabled: false,
-					color: "",
-					appearance: "",
-					location: "",
-					height: 0
+					color: {rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"},
+					appearance: "Rounded",
+					location: "Background",
+					height: 300
 				},
 				particleDefaults:{
 					enabled:false,
-					colors: [],
-					maxParticles: 0,
-					particlesLifetime:0
+					colors: [{rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"},
+							 {rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"},
+							 {rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"},
+							 {rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"}],
+					maxParticles: 200,
+					particlesLifetime: 100
 				},
 				wlineDefaults:{
 					enabled: false,
-					color: "",
-					location: "",
-					scale: 0
+					color: {rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"},
+					location: "Background",
+					scale: 300
 				}
 			},
 			setDefaults: function(){
@@ -229,13 +231,118 @@ application.ui = function(){
 				// all of this, but there's a finite amount of time I can spend
 				// on this project and I have the benefit of knowing what I'm working with
 
+				//equalizer stuff
+				document.querySelector("#gainSlider").value = this.options.defaults.eqGain;
+				application.audio.equalizer.setGain(this.options.defaults.eqGain);
+				document.querySelector("#bassSlider").value = this.options.defaults.eqBass;
+				application.audio.equalizer.setBass(this.options.defaults.eqBass);
+				document.querySelector("#lowSlider").value = this.options.defaults.eqLow;
+				application.audio.equalizer.setLow(this.options.defaults.eqLow);
+				document.querySelector("#midSlider").value = this.options.defaults.eqMid;
+				application.audio.equalizer.setMid(this.options.defaults.eqMid);
+				document.querySelector("#highSlider").value = this.options.defaults.eqHigh;
+				application.audio.equalizer.setHigh(this.options.defaults.eqHigh);
+				document.querySelector("#presenceSlider").value = this.options.defaults.eqPresence;
+				application.audio.equalizer.setPresence(this.options.defaults.eqPresence);
+				document.querySelector("#brillianceSlider").value = this.options.defaults.eqBrilliance;
+				application.audio.equalizer.setBrilliance(this.options.defaults.eqBrilliance);
 
-			},
+
+				document.querySelector("#invertCheckbox").checked = this.options.defaults.invert;
+				application.visualizer.visualization.invert = this.options.defaults.invert;
+				document.querySelector("#greyscaleCheckbox").checked = this.options.defaults.greyscale;
+				application.visualizer.visualization.greyscale = this.options.defaults.greyscale;
+
+				document.querySelector("#bezierCurveCheckbox").checked = this.options.defaults.bezierDefaults.enabled;
+				application.visualizer.visualization.bezierCurves.enabled = this.options.defaults.bezierDefaults.enabled;
+				document.querySelector("#maxCurveHeightSlider").value = this.options.defaults.bezierDefaults.maxCurveHeight;
+				application.visualizer.visualization.bezierCurves.maxCurveHeight = this.options.defaults.bezierDefaults.maxCurveHeight;
+				document.querySelector("#controlPointOffsetSlider").value = this.options.defaults.bezierDefaults.controlPointOffset;
+				application.visualizer.visualization.bezierCurves.controlPointOffset = this.options.defaults.bezierDefaults.controlPointOffset;
+				document.querySelector("#trailEffectCheckbox").checked = this.options.defaults.bezierDefaults.trailsEnabled;
+				application.visualizer.visualization.bezierCurves.trailEffect = this.options.defaults.bezierDefaults.trailsEnabled;
+				setColorWidget("#bezierColorPicker", this.options.defaults.bezierDefaults.color);
+				application.visualizer.visualization.bezierCurves.color = this.options.defaults.bezierDefaults.color.hex;
+
+				document.querySelector("#eqbarCheckbox").checked = this.options.defaults.eqBarDefaults.enabled;
+				application.visualizer.visualization.eqBars.enabled = this.options.defaults.eqBarDefaults.enabled;
+				document.querySelector("#eqbarHeightSlider").value = this.options.defaults.eqBarDefaults.height;
+				application.visualizer.visualization.eqBars.height = this.options.defaults.eqBarDefaults.height;
+				document.querySelector("#eqbarAppearance"+this.options.defaults.eqBarDefaults.appearance).checked = true;
+				application.visualizer.visualization.eqBars.appearance = this.options.defaults.eqBarDefaults.appearance;
+				document.querySelector("#eqbarLocation"+this.options.defaults.eqBarDefaults.location).checked = true;
+				application.visualizer.visualization.eqBars.location = this.options.defaults.eqBarDefaults.location;
+				setColorWidget("#eqbarColorPicker", this.options.defaults.eqBarDefaults.color);
+				application.visualizer.visualization.eqBars.color = this.options.defaults.eqBarDefaults.color.hex;
+
+				document.querySelector("#particleCheckbox").checked = this.options.defaults.particleDefaults.enabled;
+				application.visualizer.visualization.particles.enabled = this.options.defaults.particleDefaults.enabled;
+				document.querySelector("#maxParticleSlider").value = this.options.defaults.particleDefaults.maxParticles;
+				application.visualizer.visualization.particles.maxParticles = this.options.defaults.particleDefaults.maxParticles;
+				document.querySelector("#lifetimeSlider").value = this.options.defaults.particleDefaults.particlesLifetime;
+				application.visualizer.visualization.particles.lifetime = this.options.defaults.particleDefaults.particlesLifetime;
+				setColorWidget("#particleColorPicker", this.options.defaults.particleDefaults.colors[0]);
+				// also set the colors of all the preview panes and create a color array for the visualization object
+				var colorArr = [];
+				for(var i = 0; i < 4; i++){
+
+					var colorobj = this.options.defaults.particleDefaults.colors[i];
+					var rgbcolor = {r:0, g:0, b:0};
+					rgbcolor.r = colorobj.rgb[0];
+					rgbcolor.g = colorobj.rgb[1];
+					rgbcolor.b = colorobj.rgb[2];
+					colorArr.push(rgbcolor);
+
+					document.querySelector("#particleColor-"+i).style.backgroundColor = colorobj.hex;
+				}
+				application.visualizer.visualization.particles.colors = colorArr;
+
+				document.querySelector("#wlineCheckbox").checked = this.options.defaults.wlineDefaults.enabled;
+				application.visualizer.visualization.waveformLines.enabled = this.options.defaults.wlineDefaults.enabled;
+				document.querySelector("#wlineScaleSlider").value = this.options.defaults.wlineDefaults.scale;
+				application.visualizer.visualization.waveformLines.scale = this.options.defaults.wlineDefaults.scale;
+				document.querySelector("#wlineLocation"+this.options.defaults.wlineDefaults.location).checked = true;
+				application.visualizer.visualization.waveformLines.location = this.options.defaults.wlineDefaults.location;
+				setColorWidget("#wlineColorPicker", this.options.defaults.wlineDefaults.color);
+				application.visualizer.visualization.waveformLines.color = this.options.defaults.wlineDefaults.color.hex;
+				
+				function setColorWidget(colorPickerID, colorObj){
+					// determine which selector is up
+					var colorPicker = document.querySelector(colorPickerID);
+					var pickerType = colorPicker.querySelector('span').className;
+
+					// populate it
+					switch(pickerType){
+						case "rgbPicker":
+							colorPicker.querySelector('input[name="red"]').value = colorObj.rgb[0];
+							colorPicker.querySelector('input[name="green"]').value = colorObj.rgb[1];
+							colorPicker.querySelector('input[name="blue"]').value = colorObj.rgb[2];
+
+						break;
+						case "hslPicker":
+							colorPicker.querySelector('input[name="hue"]').value = colorObj.hsl[0];
+							colorPicker.querySelector('input[name="saturation"]').value = colorObj.hsl[1];
+							colorPicker.querySelector('input[name="lightness"]').value = colorObj.hsl[2];
+						break;
+						case "hexPicker":
+							colorPicker.querySelector('input').value = colorObj.hex;
+						break;
+					}
+
+					//update the preview
+					colorPicker.parentElement.querySelector('.colorPreview').style.backgroundColor = colorObj.hex;
+
+				}
+
+
+
+			}.bind(this),
 		};
 
 		// we will not (and should not) mess with these
 		Object.freeze(this.options.defaults);
 
+		
 
 		// set up event listeners
 		if(window.addEventListener) {
@@ -375,6 +482,7 @@ application.ui = function(){
 				}
 			}.bind(this);
 
+			this.options.resetButton.addEventListener("click", this.options.setDefaults);
 
 			// equalizer settings
 
@@ -493,11 +601,24 @@ application.ui = function(){
 					break;
 
 					case "particleColors":
-						document.querySelector("#particleColorPicker").dataset.colorindex = this.id.split("-").pop();
+						var colorPicker = document.querySelector("#particleColorPicker");
+						colorPicker.dataset.colorindex = this.id.split("-").pop();
+						colorPicker.parentElement.querySelector('.colorPreview').style.backgroundColor = this.style.backgroundColor;
 						this.parentElement.querySelectorAll('span').forEach(function(s){
 							s.className = "";
 						});
 						this.className = "selectedParticleColor";
+
+						// set the sliders to this newly selected color
+						// (I am cheating a little here, I guess, but it's easier than making a legitimate event object)
+						
+						var radioButtons = colorPicker.parentElement.querySelectorAll('input[type="radio"]');
+						var button = radioButtons[0];
+						if(radioButtons[1].checked) button = radioButtons[1];
+						else if (radioButtons[2].checked) button = radioButtons[2];
+
+						var event = {target: button};
+						button.onchange(event);
 					break;
 
 					case "wlineScale":
@@ -886,14 +1007,25 @@ application.ui = function(){
 				radioButtons.forEach(function(radio){
 					radio.onchange = function(e){
 						var colorPicker = this.querySelectorAll('.colorPicker')[0];
+						var color = colorPicker.parentElement.querySelector('.colorPreview').style.backgroundColor;
 						if(e.target.id.includes('RGB')){
 							colorPicker.innerHTML = rgbPicker.outerHTML;
+							// set values to current color
+							var rgb = parseToRGBValues(color);
+							colorPicker.querySelector('input[name="red"]').value = rgb.r;
+							colorPicker.querySelector('input[name="green"]').value = rgb.g;
+							colorPicker.querySelector('input[name="blue"]').value = rgb.b;
 						}
 						else if(e.target.id.includes('HSL')){
-							colorPicker.innerHTML = hslPicker.outerHTML;
+							colorPicker.innerHTML = hslPicker.outerHTML
+							var hsl = parseToHSLValues(color);
+							colorPicker.querySelector('input[name="hue"]').value = hsl.h;
+							colorPicker.querySelector('input[name="saturation"]').value = hsl.s;
+							colorPicker.querySelector('input[name="lightness"]').value = hsl.l;
 						}
 						else if(e.target.id.includes('Hex')){
 							colorPicker.innerHTML = hexPicker.outerHTML;
+							colorPicker.querySelector('input').value = parseToHexValue(color);
 						}
 						// make ids trivially unique, lazy but effective
 						colorPicker.querySelectorAll("input").forEach(function(input){
@@ -901,9 +1033,10 @@ application.ui = function(){
 							input.addEventListener("value", setColorOption);
 							input.id += i;
 						});
-						colorPicker.querySelectorAll("label").forEach(function(label){
-							label.id += i;
-						});
+						
+						
+
+
 					}.bind(colorOptions[i]);
 				});
 
@@ -912,6 +1045,9 @@ application.ui = function(){
 				var event = {target: radioButtons[0]};
 				radioButtons[0].onchange(event);
 			}
+
+			// initialize to defaults
+			this.options.setDefaults();
     	}
 		else {
     		// The browser does not support Javascript event binding, or is IE pre-9. . .

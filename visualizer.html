@@ -176,11 +176,11 @@
 						<header class="colorHeader">Color</header>
 						<span class="colorRadioButtons">
   							<input id="bezierRGBColor" class="colorRadio" type="radio" name="bezierColor" checked>
-  							<label for="bezierRGBColor"><span><span></span></span>RGB</label>
+  							<label for="bezierRGBColor">RGB</label>
   							<input id="bezierHSLColor" class="colorRadio" type="radio" name="bezierColor">
-  							<label for="bezierHSLColor"><span><span></span></span>HSL</label>
+  							<label for="bezierHSLColor">HSL</label>
   							<input id="bezierHexColor" class="colorRadio" type="radio" name="bezierColor">
-  							<label for="bezierHexColor"><span><span></span></span>Hex</label>
+  							<label for="bezierHexColor">Hex</label>
   						</span>
   						<div class="colorPicker" id="bezierColorPicker">
 
@@ -197,7 +197,7 @@
 						<input id="controlPointOffsetSlider" class="slider" type ="range" min ="900" max="1100" step ="10" value ="1000"/>
 					</div>
 					<div id="bezierTrailEffect"> 
-						<header class = "optionHeader">Trails</header>
+						<label >Trails</label>
 						<span class="checkSwitch">
 							<input id="trailEffectCheckbox" type ="checkbox" /> <label for="trailEffectCheckbox"></label>
 						</span>
@@ -219,28 +219,27 @@
 						<header class="colorHeader">Color</header>
 						<span class="colorRadioButtons">
   							<input id="eqbarRGBColor" class="colorRadio" type="radio" name="eqbarColor" checked>
-  							<label for="eqbarRGBColor"><span><span></span></span>RGB</label>
+  							<label for="eqbarRGBColor">RGB</label>
   							<input id="eqbarHSLColor" class="colorRadio" type="radio" name="eqbarColor">
-  							<label for="eqbarHSLColor"><span><span></span></span>HSL</label>
+  							<label for="eqbarHSLColor">HSL</label>
   							<input id="eqbarHexColor" class="colorRadio" type="radio" name="eqbarColor">
-  							<label for="eqbarHexColor"><span><span></span></span>Hex</label>
+  							<label for="eqbarHexColor">Hex</label>
   						</span>
   						<div class="colorPicker" id="eqbarColorPicker"></div>
   						<span class="colorPreview"></span>
 					</div>
+					<header class="optionHeader">Appearance</header>
 					<div id="eqbarAppearance"> 
-						<header class="optionHeader">Appearance</header>
-						
-						<input id="eqbarAppearanceRectangular" name="eqBarAppearance" type="radio" checked value="Rectangular"/>
+						<input id="eqbarAppearanceRectangular" name="eqBarAppearance" type="radio" value="Rectangular"/>
 						<label for="eqbarAppearanceRectangular">Rectangular</label>
 						<input id="eqbarAppearanceRounded" name="eqBarAppearance" type="radio" value="Rounded"/>
 						<label for="eqbarAppearanceRounded">Rounded</label>
 						<input id="eqbarAppearanceLine" name="eqBarAppearance" type="radio" value="Line"/>
 						<label for="eqbarAppearanceLine">Line</label>
 					</div>
+					<header class="optionHeader"> Location </header>
 					<div id="eqbarLocation"> 
-						<header class="optionHeader"> Location </header>
-						<input id="eqbarLocationCenter" name="eqBarLocation" type="radio" checked value = "Center"/>
+						<input id="eqbarLocationCenter" name="eqBarLocation" type="radio" value = "Center"/>
 						<label for="eqbarLocationCenter">Center</label>
 						<input id="eqbarLocationBackground" name="eqBarLocation" type="radio" value="Background"/>
 						<label for="eqbarLocationBackground">Background</label>
@@ -266,8 +265,8 @@
 				<button type="button" class="expandButton"> <img src="media/settingsgearwhite.png" height=20 width=20 alt="Advanced Settings"></button>
 				<div id="particleAdvanced" class="advancedOptions slidehorizontal" >
 					<div class = "advancedOptionsWrapper"> 
+					<header class="optionHeader">Particle Colors</header>
 					<div id="particleColors"> 
-						<header class="optionHeader">Particle Colors</header>
 						<span id="particleColor-0" class="selectedParticleColor"> </span>
 						<span id="particleColor-1"> </span>
 						<span id="particleColor-2"> </span>
@@ -312,20 +311,19 @@
 						<header class="colorHeader">Color</header>
 						<span class="colorRadioButtons">
   							<input id="wlineRGBColor" class="colorRadio" type="radio" name="wlineColor" checked>
-  							<label for="wlineRGBColor"><span><span></span></span>RGB</label>
+  							<label for="wlineRGBColor">RGB</label>
   							<input id="wlineHSLColor" class="colorRadio" type="radio" name="wlineColor">
-  							<label for="wlineHSLColor"><span><span></span></span>HSL</label>
+  							<label for="wlineHSLColor">HSL</label>
   							<input id="wlineHexColor" class="colorRadio" type="radio" name="wlineColor">
-  							<label for="wlineHexColor"><span><span></span></span>Hex</label>
+  							<label for="wlineHexColor">Hex</label>
   						</span>
   						<div class="colorPicker" id="wlineColorPicker">
 
   						</div>
   						<span class="colorPreview"></span>
 					</div>
+					<header class="optionHeader"> Location </header>
 					<div id="wlineLocation"> 
-						<header class="optionHeader"> Location </header>
-						
 						<input id="wlineLocationCenter" name="wlineLocation" type="radio" value="Center"/>
 						<label for="wlineLocationCenter">Center</label>
 						<input id="wlineLocationBackground" name="wlineLocation" type="radio" checked value="Background"/>
