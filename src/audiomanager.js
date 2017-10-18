@@ -34,12 +34,11 @@ application.audio = function(){
 		// default starting value
 		this.audioElement.volume = document.querySelector("#volumeSlider").value;
 
-		// TODO: Debug
+		// TODO: DebugS
 		this.equalizer = function(){
 			var equalizer = {};
-			var gain = 1, playbackRate = 1, 
-			bass = 1, low = 1, mid = 1, high = 1, presence = 1, brilliance = 1,
-			reverb = 1;
+			var gain = 1,  
+			bass = 1, low = 1, mid = 1, high = 1, presence = 1, brilliance = 1;
 
 			equalizer.gainNode = this.audioCtx.createGain();
 			gain = changeGain(equalizer.gainNode, gain);
@@ -48,14 +47,14 @@ application.audio = function(){
 			// lowshelf filter allows all frequencies through, but boosts/attenuates lower frequencies
 			equalizer.bassFilter = this.audioCtx.createBiquadFilter();
 			equalizer.bassFilter.type = "lowshelf";
-			equalizer.bassFilter.frequency.value = 100.0;
+			equalizer.bassFilter.frequency.value = 200.0;
 			equalizer.bassFilter.gain.value = 1.0;
 
 			// low filter
 			// peaking allows all frequencies through, but boosts a range of frequencies
 			equalizer.lowFilter = this.audioCtx.createBiquadFilter();
 			equalizer.lowFilter.type = "peaking";
-			equalizer.lowFilter.frequency.value = 320.0;
+			equalizer.lowFilter.frequency.value = 500.0;
 			equalizer.lowFilter.Q.value = 0.5;
 			equalizer.lowFilter.gain.value = 1.0;
 
@@ -88,28 +87,22 @@ application.audio = function(){
 			equalizer.brillianceFilter.frequency.value = 8000.0;
 			equalizer.brillianceFilter.gain.value = 1.0;
 
-			equalizer.reverbFilter = this.audioCtx.createConvolver();
-
 			// a billion accessors for our equalizer
-			equalizer.setGain = function(value){gain = changeGain(equalizer.gainNode, value);};
+			equalizer.setGain = function(value){gain = changeGain(this.gainNode, value);};
 			equalizer.getGain = function(){return gain;};
-			equalizer.setPlaybackRate = function(value){playbackRate = value;};
-			equalizer.getPlaybackRate = function(){return playbackRate;};
-			equalizer.setBass = function(value){bass = changeGain(equalizer.bassNode, value);;};
+			equalizer.setBass = function(value){bass = changeGain(this.bassFilter, value);};
 			equalizer.getBass = function(){return bass;};
-			equalizer.setLow = function(value){low = changeGain(equalizer.lowNode, value);;};
+			equalizer.setLow = function(value){low = changeGain(this.lowFilter, value);;};
 			// to the windoooooooow, to the walls
 			equalizer.getLow = function(){return low;};
-			equalizer.setMid = function(value){mid = changeGain(equalizer.midNode, value);};
+			equalizer.setMid = function(value){mid = changeGain(this.midFilter, value);};
 			equalizer.getMid = function(){return mid;};
-			equalizer.setHigh = function(value){high = changeGain(equalizer.highNode, value);};
+			equalizer.setHigh = function(value){high = changeGain(this.highFilter, value);};
 			equalizer.getHigh = function(){return high;};
-			equalizer.setPresence = function(value){presence = changeGain(equalizer.presenceNode, value);};
+			equalizer.setPresence = function(value){presence = changeGain(this.presenceFilter, value);};
 			equalizer.getPresence = function(){return presence;};
-			equalizer.setBrilliance = function(value){brilliance = changeGain(equalizer.brillianceNode, value);};
+			equalizer.setBrilliance = function(value){brilliance = changeGain(this.brillianceFilter, value);};
 			equalizer.getBrilliance = function(){return brilliance;};
-			equalizer.setReverb = function(value){reverb = value;};
-			equalizer.getReverb = function(){return reverb};
 
 			return equalizer;
 		}.bind(this)();
@@ -125,9 +118,8 @@ application.audio = function(){
 		this.equalizer.presenceFilter.connect(this.equalizer.highFilter);
 		this.equalizer.highFilter.connect(this.equalizer.midFilter);
 		this.equalizer.midFilter.connect(this.equalizer.lowFilter);
-		this.equalizer.lowFilter.connect(this.analyserNode);
-
-		//TODO: reverb
+		this.equalizer.lowFilter.connect(this.equalizer.bassFilter);
+		this.equalizer.bassFilter.connect(this.analyserNode);
 
 		// analyser goes last, we want it to be getting data from the audio the user will be hearing
 		this.analyserNode.connect(this.audioCtx.destination)

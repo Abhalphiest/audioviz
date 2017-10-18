@@ -387,8 +387,8 @@ application.ui = function(){
 					case "gainSlider":
 						equalizer.setGain(this.value);
 						break;
-					case "pbrSlider":
-						equalizer.setPlaybackRate(this.value);
+					case "bassSlider":
+						equalizer.setBass(this.value);
 						break;
 					case "lowSlider":
 						equalizer.setLow(this.value);
@@ -398,6 +398,12 @@ application.ui = function(){
 						break;
 					case "highSlider":
 						equalizer.setHigh(this.value);
+						break;
+					case "presenceSlider":
+						equalizer.setPresence(this.value);
+						break;
+					case "brillianceSlider":
+						equalizer.setBrilliance(this.value);
 						break;
 				}
 			}
