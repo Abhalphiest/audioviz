@@ -108,14 +108,13 @@ application.visualizer = function(){
 					if(!this.enabled)
 						return;
 
-					// TODO: make ranges an array
+					
 					//get our ranges
 					var r1 = frequencyData.slice(0, 31);
 					var r2 = frequencyData.slice(31, 81);
-					var r3 = frequencyData.slice(100, 121);
-					var newAvg1= avgArrayValue(r1);
-					var newAvg2= avgArrayValue(r2);
-					var newAvg3= avgArrayValue(r3);
+					var r3 = frequencyData.slice(81, 121);
+					var r4 = frequencyData.slice(121, 151);
+					var newAvgs= [avgArrayValue(r1), avgArrayValue(r2), avgArrayValue(r3), avgArrayValue(r4)];
 
 					// average frequency across all that are in an "active range" 
 					// (there are a large amount of zeroes in the upper frequencies that will skew an average down)
@@ -126,19 +125,22 @@ application.visualizer = function(){
 					commonfrequencies = trimTrailingZeroes(commonfrequencies);
 					var avgfreq= avgArrayValue(commonfrequencies);
 
-					var newAvg = Math.max(newAvg1, newAvg2, newAvg3);
+					var newAvg = Math.max(newAvgs[0], newAvgs[1], newAvgs[2], newAvgs[3]);
 					var diff, color;
 
 					// choose our color and calculate the delta
-					if(newAvg === newAvg1){
-						diff = newAvg1 - this.prevAvg1;
+					if(newAvg === newAvgs[0]){
+						diff = newAvgs[0] - this.prevAvgs[0];
 						color = this.colors[0];
-					}else if(newAvg === newAvg2){
-						diff = newAvg2 - this.prevAvg2;
+					}else if(newAvg === newAvgs[1]){
+						diff = newAvgs[1] - this.prevAvgs[1];
 						color = this.colors[1];
-					}else{
-						diff = newAvg3 - this.prevAvg3;
+					}else if(newAvg === newAvgs[2]){
+						diff = newAvgs[2] - this.prevAvgs[2];
 						color = this.colors[2];
+					}else{
+						diff = newAvgs[3] - this.prevAvgs[3];
+						color = this.colors[3];
 					}
 					
 					// compare the intensity to the average of the track, so that particles still fire even for
@@ -179,9 +181,7 @@ application.visualizer = function(){
 
 					}
 					// update averages for comparison
-					this.prevAvg1 = newAvg1;
-					this.prevAvg2 = newAvg2;
-					this.prevAvg3 = newAvg3;
+					this.prevAvgs = newAvgs;
 
 					// draw all our particles
 					this.particleSystems.forEach(function(ps){
@@ -196,9 +196,7 @@ application.visualizer = function(){
 				lifetime: 100,
 				colors: [{r:255, g: 0, b: 0},{r:120, g:120, b:120}, {r:0, g:0, b:0}],
 				particleSystems: [],
-				prevAvg1: 0,
-				prevAvg2: 0,
-				prevAvg3: 0,
+				prevAvgs: [0,0,0,0],
 			},
 			// draws either a line or shapes with borders defined by a line determined by waveform data
 			// think oscilloscope
@@ -337,15 +335,27 @@ application.visualizer = function(){
 
 					// wrapped around the center circle
 					if(this.location === "Center"){ // hoo boy
-						var radius = 250;
-						var cyclicArray = [].slice.call(frequencyData);
-						cyclicArray = trimTrailingZeroes(cyclicArray);
-						while(cyclicArray.length < 2*radius*Math.PI/5)
-							cyclicArray = cyclicArray.concat(cyclicArray);
-						cyclicArray.length = 2*radius.Math.PI/5;
+						var radius = 200;
+						var truncArray = [].slice.call(frequencyData);
+						truncArray.length = Math.floor(250*Math.PI/5); // circumference 2pi*r divided by 10
+						var angleStep = 250*2/5;
+						
+						
 						ctx.save();
-						for(var i = 0; i < cyclicArray.length; i++){
+						ctx.fillStyle = this.color;
+						for(var i = 0; i < truncArray.length; i++){
+							var scale = truncArray[i]/255;
 
+							switch(this.appearance){
+								case "Line": ctx.fillRect(canvas.width/2, canvas.height/2, radius + this.height*scale, 2); break;
+								case "Rectangular": ctx.fillRect(canvas.width/2, canvas.height/2, radius + this.height*scale, 10); break;
+								case "Rounded": fillRoundedRect(canvas.width/2, canvas.height/2, radius + this.height*scale, 10, ctx); break;
+
+							}
+								
+							ctx.translate(canvas.width/2, canvas.height/2);			
+							ctx.rotate(angleStep);
+							ctx.translate(-canvas.width/2, -canvas.height/2);
 						}
 						ctx.restore();
 					}
@@ -452,41 +462,61 @@ application.visualizer = function(){
 			//lyrics : false, // stretch goal.
 
 			// draws all the postprocessing effects that impact all canvases
-			// this is where the 4 canvases starts to really hurt, so we do some checking to see if we need to 
+			// fortunately we can process them all in the same loop since they're identical
 			postprocess: function(){
 				var mainImageData = ctx.getImageData(0,0,canvas.width,canvas.height);
 				var midgroundImageData = midground.ctx.getImageData(0,0,canvas.width,canvas.height);
-
-				var data = mainImageData.data;
-				var middata = midgroundImageData.data;
-				for(var i = 0; i < data.length; i+=4){
+				var foregroundImageData = foreground.ctx.getImageData(0,0,canvas.width,canvas.height);
+				var backgroundImageData = background.ctx.getImageData(0,0,canvas.width, canvas.height);
+				
+				
+				for(var i = 0; i < mainImageData.data.length; i+=4){
 
 					// these are pretty straightforward, but the greyscale code creates a single aggregate value
 					// to set r,g,b to to form a corresponding shade of grey
 					// and invert flips r,g,b within the [0,255] range
 					if(this.greyscale){
-						var value = data[i]*0.2989 + data[i+1]*.970 + data[i+2]*0.1140;
-						data[i] = data[i+1] = data[i+2] = data[i+3] = value;
+						var value = mainImageData.data[i]*0.2989 + mainImageData.data[i+1]*.970 + mainImageData.data[i+2]*0.1140;
+						mainImageData.data[i] = mainImageData.data[i+1] = mainImageData.data[i+2] = mainImageData.data[i+3] = value;
 
-						value = middata[i]*0.2989 + middata[i+1]*.970 + middata[i+2]*0.1140;
-						middata[i] = middata[i+1] = middata[i+2] = middata[i+3] = value;
+						value = midgroundImageData.data[i]*0.2989 + midgroundImageData.data[i+1]*.970 + midgroundImageData.data[i+2]*0.1140;
+						midgroundImageData.data[i] = midgroundImageData.data[i+1] = midgroundImageData.data[i+2] = midgroundImageData.data[i+3] = value;
+
+						value = backgroundImageData.data[i]*0.2989 + backgroundImageData.data[i+1]*.970 + backgroundImageData.data[i+2]*0.1140;
+						backgroundImageData.data[i] = backgroundImageData.data[i+1] = backgroundImageData.data[i+2] = backgroundImageData.data[i+3] = value;
+
+						value = foregroundImageData.data[i]*0.2989 + foregroundImageData.data[i+1]*.970 + foregroundImageData.data[i+2]*0.1140;
+						foregroundImageData.data[i] = foregroundImageData.data[i+1] = foregroundImageData.data[i+2] = foregroundImageData.data[i+3] = value;
 					}
 					if(this.invert){
-						var red = data[i], green = data[i+1], blue = data[i+2];
-						data[i] = 255 - red;	// set red value
-						data[i+1] = 255 - green; // set green value
-						data[i+2] = 255 - blue; // set blue value
+						var red = mainImageData.data[i], green = mainImageData.data[i+1], blue = mainImageData.data[i+2];
+						mainImageData.data[i] = 255 - red;	// set red value
+						mainImageData.data[i+1] = 255 - green; // set green value
+						mainImageData.data[i+2] = 255 - blue; // set blue value
 
-						red = middata[i], green = middata[i+1], blue = middata[i+2];
-						middata[i] = 255 - red;	// set red value
-						middata[i+1] = 255 - green; // set green value
-						middata[i+2] = 255 - blue; // set blue value
+						red = midgroundImageData.data[i], green = midgroundImageData.data[i+1], blue = midgroundImageData.data[i+2];
+						midgroundImageData.data[i] = 255 - red;	// set red value
+						midgroundImageData.data[i+1] = 255 - green; // set green value
+						midgroundImageData.data[i+2] = 255 - blue; // set blue value
+
+						red = foregroundImageData.data[i], green = foregroundImageData.data[i+1], blue = foregroundImageData.data[i+2];
+						foregroundImageData.data[i] = 255 - red;	// set red value
+						foregroundImageData.data[i+1] = 255 - green; // set green value
+						foregroundImageData.data[i+2] = 255 - blue; // set blue value
+
+						red = backgroundImageData.data[i], green = backgroundImageData.data[i+1], blue = backgroundImageData.data[i+2];
+						backgroundImageData.data[i] = 255 - red;	// set red value
+						backgroundImageData.data[i+1] = 255 - green; // set green value
+						backgroundImageData.data[i+2] = 255 - blue; // set blue value
 					}
 
 				}
 
+
 				ctx.putImageData(mainImageData,0,0);
 				midground.ctx.putImageData(midgroundImageData,0,0);
+				background.ctx.putImageData(backgroundImageData,0,0);
+				foreground.ctx.putImageData(foregroundImageData,0,0);
 			}
 			
 

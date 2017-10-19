@@ -19,6 +19,7 @@ body {
   font-size: 20px; 
 }
 
+
 /* For slide left, slide right transitions */
 .slidehorizontal{
   max-width: 0;
@@ -167,7 +168,14 @@ body {
   left: 2%;
 }
 
-
+#appInfo{
+  font-size:.5em;
+  color:#333;
+  position:absolute;
+  top: 2px;
+  right:2px;
+  z-index: 40;
+}
 /* Slider CSS (see generated.css for the rest of the styles on sliders) */
 .slider {
   width:80%;

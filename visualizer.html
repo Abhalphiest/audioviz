@@ -93,8 +93,8 @@
 	<canvas id="foregroundCanvas"></canvas>
 	<canvas id="backgroundCanvas"></canvas>
 	<canvas id="midgroundCanvas"></canvas>
-	<div id="bottomsensor">
-		
+	<span id="appInfo">Margaret Dorsey&trade;</span>
+	<div id="bottomsensor">	
 		<section id="controls" class = "slide" >
 			<div id="controlsBG"></div>
 			<!-- These are all positioned absolutely, so it doesn't matter what order they're in, but I put them from left to right to satisfy my own neurosis. -->
@@ -145,7 +145,7 @@
 				<input id="highSlider" class="slider" type ="range" min ="-40" max="40" step =".1" value ="1"/>
 			</div>
 			<div id="presenceControl" class="eqControl">
-				<label for="presenceSlider" id = "highLabel">Presence</label>
+				<label for="presenceSlider" id = "presenceLabel">Presence</label>
 				<input id="presenceSlider" class="slider" type ="range" min ="-40" max="40" step ="1" value ="1"/>
 			</div>
 			<div id="brillianceControl" class="eqControl">
@@ -352,11 +352,12 @@
 				<span class="checkSwitch">
 					<input type="checkbox" id="greyscaleCheckbox" /><label for="greyscaleCheckbox"></label>
 				</span>
-				<span id="invertLabel" class="optLabel"> Greyscale </span>
+				<span id="greyscaleLabel" class="optLabel"> Greyscale </span>
 			</div>
 
 		</section>
 		<button id="resetButton" type="button">Reset to Defaults</button>
+
 	</section>
 </body>
 </html>
