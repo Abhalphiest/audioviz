@@ -68,25 +68,25 @@ application.visualizer = function(){
 						var scale = frequencyData[i]/255.0;
 
 						// draw quadratic bezier curves
-						drawQuadCurve(ctx, -canvas.width/2, canvas.height/2, canvas.width/4+ this.controlPointOffset, 
-									canvas.height/2 + scale*this.maxCurveHeight, canvas.width/2, canvas.height/2, this.color, false);
-						drawQuadCurve(ctx, -canvas.width/2, canvas.height/2, canvas.width/4+ this.controlPointOffset, 
-									canvas.height/2 - scale*this.maxCurveHeight, canvas.width/2, canvas.height/2, this.color, false);
-						drawQuadCurve(ctx, canvas.width/2, canvas.height/2, 3*canvas.width/4- this.controlPointOffset, 
-									canvas.height/2 + scale*this.maxCurveHeight, 3*canvas.width/2, canvas.height/2, this.color, false);
-						drawQuadCurve(ctx, canvas.width/2, canvas.height/2, 3*canvas.width/4- this.controlPointOffset, 
-									canvas.height/2 - scale*this.maxCurveHeight, 3*canvas.width/2, canvas.height/2, this.color, false);
+						drawQuadCurve(ctx, -canvas.width/2, canvas.height/2, this.controlPointOffset, 
+									canvas.height/2 + scale*this.maxCurveHeight, canvas.width/2, canvas.height/2, this.color);
+						drawQuadCurve(ctx, -canvas.width/2, canvas.height/2, this.controlPointOffset, 
+									canvas.height/2 - scale*this.maxCurveHeight, canvas.width/2, canvas.height/2, this.color);
+						drawQuadCurve(ctx, canvas.width/2, canvas.height/2, canvas.width- this.controlPointOffset, 
+									canvas.height/2 + scale*this.maxCurveHeight, 3*canvas.width/2, canvas.height/2, this.color);
+						drawQuadCurve(ctx, canvas.width/2, canvas.height/2, canvas.width- this.controlPointOffset,
+									canvas.height/2 - scale*this.maxCurveHeight, 3*canvas.width/2, canvas.height/2, this.color);
 
 						if(this.trailEffect){
 							midground.ctx.save();
 							midground.ctx.lineWidth = 100;
-							drawQuadCurve(midground.ctx, -canvas.width/2, canvas.height/2, canvas.width/4+ this.controlPointOffset, 
-									canvas.height/2 + scale*this.maxCurveHeight, canvas.width/2, canvas.height/2, this.color, false);
-							drawQuadCurve(midground.ctx, -canvas.width/2, canvas.height/2, canvas.width/4+ this.controlPointOffset, 
+							drawQuadCurve(midground.ctx, -canvas.width/2, canvas.height/2, this.controlPointOffset, 
+									canvas.height/2 + scale*this.maxCurveHeight, canvas.width/2, canvas.height/2, this.color);
+							drawQuadCurve(midground.ctx, -canvas.width/2, canvas.height/2, this.controlPointOffset, 
 									canvas.height/2 - scale*this.maxCurveHeight, canvas.width/2, canvas.height/2, this.color, false);
-							drawQuadCurve(midground.ctx, canvas.width/2, canvas.height/2, 3*canvas.width/4- this.controlPointOffset, 
+							drawQuadCurve(midground.ctx, canvas.width/2, canvas.height/2,canvas.width- this.controlPointOffset, 
 									canvas.height/2 + scale*this.maxCurveHeight, 3*canvas.width/2, canvas.height/2, this.color, false);
-							drawQuadCurve(midground.ctx, canvas.width/2, canvas.height/2, 3*canvas.width/4- this.controlPointOffset, 
+							drawQuadCurve(midground.ctx, canvas.width/2, canvas.height/2, canvas.width- this.controlPointOffset, 
 									canvas.height/2 - scale*this.maxCurveHeight, 3*canvas.width/2, canvas.height/2, this.color, false);
 							midground.ctx.restore();
 						}
@@ -359,12 +359,11 @@ application.visualizer = function(){
 						}
 						ctx.restore();
 					}
-
 					// centered on the horizontal midline as a background graphic (mirrored vertically and horizontally for visual effect)
 					else if(this.location === "Background"){
 						background.ctx.save();
 						background.ctx.fillStyle = this.color;
-						var verticalSpacing = canvas.height/2 - this.height;
+						var verticalSpacing = background.canvas.height/2;
 
 						// take only the first half (the most used) so we can mirror it horizontally for symmetry
 						var truncatedArray = [].slice.call(frequencyData);
@@ -375,19 +374,19 @@ application.visualizer = function(){
 						for(var i = 0; i < truncatedArray.length; i++){
 							var heightScale = truncatedArray[i]/255.0;
 							switch(this.appearance){
-								case "Rectangular":
-									background.ctx.fillRect(background.canvas.width/2 + i*(barWidth + barSpacing), verticalSpacing + this.height - this.height*heightScale, barWidth, 2*this.height*heightScale);
-									background.ctx.fillRect(background.canvas.width/2 - i*(barWidth + barSpacing), verticalSpacing + this.height - this.height*heightScale, barWidth, 2*this.height*heightScale);
+								case "Rectangular": // draw from middle outwards
+									background.ctx.fillRect(background.canvas.width/2 + i*(barWidth + barSpacing), verticalSpacing - this.height*heightScale, barWidth, 2*this.height*heightScale);
+									background.ctx.fillRect(background.canvas.width/2 - i*(barWidth + barSpacing), verticalSpacing - this.height*heightScale, barWidth, 2*this.height*heightScale);
 								break;
 
 								case "Rounded" :
-									fillRoundedRect(background.canvas.width/2 + i*(barWidth + barSpacing), verticalSpacing + this.height - this.height*heightScale, barWidth, 2*this.height*heightScale, background.ctx);
-									fillRoundedRect(background.canvas.width/2 - i*(barWidth + barSpacing), verticalSpacing + this.height - this.height*heightScale, barWidth, 2*this.height*heightScale, background.ctx); 
+									fillRoundedRect(background.canvas.width/2 + i*(barWidth + barSpacing), verticalSpacing  - this.height*heightScale, barWidth, 2*this.height*heightScale, background.ctx);
+									fillRoundedRect(background.canvas.width/2 - i*(barWidth + barSpacing), verticalSpacing  - this.height*heightScale, barWidth, 2*this.height*heightScale, background.ctx); 
 								break;
 
 								case "Line":
-									background.ctx.fillRect(background.canvas.width/2 + i*(barWidth + barSpacing), verticalSpacing + this.height - this.height*heightScale, 2, 2*this.height*heightScale);
-									background.ctx.fillRect(background.canvas.width/2 - i*(barWidth + barSpacing), verticalSpacing + this.height - this.height*heightScale, 2, 2*this.height*heightScale);
+									background.ctx.fillRect(background.canvas.width/2 + i*(barWidth + barSpacing), verticalSpacing  - this.height*heightScale, 2, 2*this.height*heightScale);
+									background.ctx.fillRect(background.canvas.width/2 - i*(barWidth + barSpacing), verticalSpacing - this.height*heightScale, 2, 2*this.height*heightScale);
 								break;
 							}
 						}
@@ -464,6 +463,9 @@ application.visualizer = function(){
 			// draws all the postprocessing effects that impact all canvases
 			// fortunately we can process them all in the same loop since they're identical
 			postprocess: function(){
+
+				if(!this.greyscale && ! this.invert)
+					return; 
 				var mainImageData = ctx.getImageData(0,0,canvas.width,canvas.height);
 				var midgroundImageData = midground.ctx.getImageData(0,0,canvas.width,canvas.height);
 				var foregroundImageData = foreground.ctx.getImageData(0,0,canvas.width,canvas.height);
@@ -476,17 +478,17 @@ application.visualizer = function(){
 					// to set r,g,b to to form a corresponding shade of grey
 					// and invert flips r,g,b within the [0,255] range
 					if(this.greyscale){
-						var value = mainImageData.data[i]*0.2989 + mainImageData.data[i+1]*.970 + mainImageData.data[i+2]*0.1140;
-						mainImageData.data[i] = mainImageData.data[i+1] = mainImageData.data[i+2] = mainImageData.data[i+3] = value;
+						var value = mainImageData.data[i]*0.21 + mainImageData.data[i+1]*0.72 + mainImageData.data[i+2]*0.007;
+						mainImageData.data[i] = mainImageData.data[i+1] = mainImageData.data[i+2] =  value;
 
-						value = midgroundImageData.data[i]*0.2989 + midgroundImageData.data[i+1]*.970 + midgroundImageData.data[i+2]*0.1140;
-						midgroundImageData.data[i] = midgroundImageData.data[i+1] = midgroundImageData.data[i+2] = midgroundImageData.data[i+3] = value;
+						value = midgroundImageData.data[i]*0.21 + midgroundImageData.data[i+1]*0.72 + midgroundImageData.data[i+2]*0.007;
+						midgroundImageData.data[i] = midgroundImageData.data[i+1] = midgroundImageData.data[i+2] = value;
 
-						value = backgroundImageData.data[i]*0.2989 + backgroundImageData.data[i+1]*.970 + backgroundImageData.data[i+2]*0.1140;
-						backgroundImageData.data[i] = backgroundImageData.data[i+1] = backgroundImageData.data[i+2] = backgroundImageData.data[i+3] = value;
+						value = backgroundImageData.data[i]*0.21 + backgroundImageData.data[i+1]*0.72 + backgroundImageData.data[i+2]*0.007;
+						backgroundImageData.data[i] = backgroundImageData.data[i+1] = backgroundImageData.data[i+2]  = value;
 
-						value = foregroundImageData.data[i]*0.2989 + foregroundImageData.data[i+1]*.970 + foregroundImageData.data[i+2]*0.1140;
-						foregroundImageData.data[i] = foregroundImageData.data[i+1] = foregroundImageData.data[i+2] = foregroundImageData.data[i+3] = value;
+						value = foregroundImageData.data[i]*0.21 + foregroundImageData.data[i+1]*0.72 + foregroundImageData.data[i+2]*0.007;
+						foregroundImageData.data[i] = foregroundImageData.data[i+1] = foregroundImageData.data[i+2] = value;
 					}
 					if(this.invert){
 						var red = mainImageData.data[i], green = mainImageData.data[i+1], blue = mainImageData.data[i+2];
@@ -592,7 +594,6 @@ application.visualizer = function(){
 		ctx.beginPath(); //start a new path. This will clear the old drawing path shape
 		ctx.moveTo(x1,y1); //move our cursor to the point to draw from. This does NOT draw, just moves
 		ctx.quadraticCurveTo(cpX, cpY, x2, y2); 
-			
 		//draw the path
 		ctx.stroke();
 	}

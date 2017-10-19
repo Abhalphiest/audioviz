@@ -200,29 +200,29 @@ application.ui = function(){
 					enabled: false,
 					color: {rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"},
 					maxCurveHeight: 1000,
-					controlPointOffset: 1000,
+					controlPointOffset: 1770,
 					trailsEnabled: false
 				},
 				eqBarDefaults:{
-					enabled: false,
-					color: {rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"},
+					enabled: true,
+					color: {rgb:[157,184,193], hsl:[195,18,75], hex:"#9db8c1"},
 					appearance: "Rounded",
 					location: "Background",
 					height: 300
 				},
 				particleDefaults:{
-					enabled:false,
-					colors: [{rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"},
-							 {rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"},
-							 {rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"},
-							 {rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"}],
+					enabled:true,
+					colors: [{rgb:[89,89,89], hsl:[0,0,34], hex:"#595959"},
+							 {rgb:[81,0,0], hsl:[0,100,31], hex:"#510000"},
+							 {rgb:[45,36,68], hsl:[256,47,26], hex:"#2d2444"},
+							 {rgb:[143,143,143], hsl:[0,0,56], hex:"#8f8f8f"}],
 					maxParticles: 200,
 					particlesLifetime: 100
 				},
 				wlineDefaults:{
-					enabled: false,
-					color: {rgb:[0,0,0], hsl:[0,0,0], hex:"#000000"},
-					location: "Background",
+					enabled: true,
+					color: {rgb:[101,26,26], hsl:[0,74,39], hex:"#651a1a"},
+					location: "Overlay",
 					scale: 300
 				}
 			},
@@ -588,7 +588,7 @@ application.ui = function(){
 						application.visualizer.visualization.bezierCurves.controlPointOffset = this.value;
 					break;
 
-					case "bezierTrailEffect":
+					case "trailEffectToggle":
 						application.visualizer.visualization.bezierCurves.trailEffect = this.checked;
 					break;
 
